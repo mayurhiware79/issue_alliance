@@ -1,5 +1,44 @@
+# # Logs
+# logs
+# *.log
+# npm-debug.log*
+# yarn-debug.log*
+# yarn-error.log*
+# pnpm-debug.log*
+# lerna-debug.log*
+
+# node_modules
+# dist
+# dist-ssr
+# *.local
+
+# # Editor directories and files
+# .vscode/*
+# !.vscode/extensions.json
+# .idea
+# .DS_Store
+# *.suo
+# *.ntvs*
+# *.njsproj
+# *.sln
+# *.sw?
+# .env
+
+# # Google Service Account credentials
+# server/credentials.json
+# server/credentials.json.example
+# server/analytics-backup.json
+# *.env
+# server
+
+# Node modules and build outputs
+node_modules/
+dist/
+dist-ssr/
+*.local
+
 # Logs
-logs
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -7,26 +46,30 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# System/Editor files
 .DS_Store
+.vscode/
+!.vscode/extensions.json
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-.env
 
-# Google Service Account credentials
+# Environment & credentials
+.env
+*.env
+.env.*
+.env.example
 server/credentials.json
 server/credentials.json.example
 server/analytics-backup.json
-*.env
-server
+
+# Misc
+*.zip
+*.bak
+*.tmp
+*.test
+*.log
+.env_test.txt
