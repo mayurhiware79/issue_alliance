@@ -26,3 +26,8 @@ dist-ssr
 
 # Google Service Account credentials
 server/credentials.json
+
+# .gitignore
+server/credentials.json.example
+server/analytics-backup.json
+*.env
