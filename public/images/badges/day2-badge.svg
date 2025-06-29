@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <radialGradient id="face-grad" cx="30%" cy="30%" r="75%">
+      <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#4338CA;stop-opacity:1" />
+    </radialGradient>
+    
+    <linearGradient id="edge-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3730A3" />
+      <stop offset="100%" style="stop-color:#1E1B4B" />
+    </linearGradient>
+    
+    <filter id="inner-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feFlood result="flood" flood-color="#A5B4FC" flood-opacity="0.3"/>
+      <feComposite in="flood" result="mask" in2="SourceGraphic" operator="in"/>
+      <feGaussianBlur in="mask" stdDeviation="4" result="glow"/>
+      <feBlend in="SourceGraphic" in2="glow" mode="screen"/>
+    </filter>
+
+    <filter id="crystal-shine" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="blur"/>
+      <feSpecularLighting surfaceScale="5" specularConstant="1" specularExponent="20" lighting-color="#FFFFFF" in="blur">
+        <fePointLight x="50" y="60" z="200"/>
+      </feSpecularLighting>
+      <feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0"/>
+    </filter>
+
+    <radialGradient id="gloss" cx="50%" cy="30%" r="50%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+    </radialGradient>
+  </defs>
+
+  <!-- 3D Base Shadow -->
+  <ellipse cx="100" cy="180" rx="60" ry="12" fill="#1E1B4B" opacity="0.4" filter="url(#inner-glow)"/>
+  
+  <!-- Main Badge -->
+  <g transform="translate(0 0)">
+    <!-- Edge Lighting -->
+    <circle cx="100" cy="100" r="90" fill="url(#edge-grad)" filter="url(#crystal-shine)"/>
+    
+    <!-- Main Body -->
+    <circle cx="100" cy="100" r="85" fill="url(#face-grad)" filter="url(#inner-glow)"/>
+    
+    <!-- Gloss Effect -->
+    <ellipse cx="100" cy="70" rx="70" ry="40" fill="url(#gloss)"/>
+    
+    <!-- Diamond Pattern -->
+    <path d="M100 20L140 60 100 100 60 60z" fill="#ffffff" opacity="0.1" transform="rotate(45 100 100)"/>
+    <path d="M100 40L120 60 100 80 80 60z" fill="#ffffff" opacity="0.1" transform="rotate(45 100 100)"/>
+    
+    <!-- Central Number -->
+    <g text-anchor="middle" font-family="Arial" font-weight="900">
+      <text x="100" y="135" fill="#1E1B4B" font-size="110" opacity="0.3" filter="url(#inner-glow)">1</text>
+      <text x="100" y="125" fill="#FFFFFF" font-size="100">1</text>
+    </g>
+    
+    <!-- Floating Particles -->
+    <g fill="#FFFFFF" opacity="0.9">
+      <circle cx="60" cy="60" r="2.5">
+        <animate attributeName="cy" values="60;65;60" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="140" cy="70" r="2">
+        <animate attributeName="cy" values="70;75;70" dur="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="80" cy="140" r="1.5">
+        <animate attributeName="cx" values="80;85;80" dur="5s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+    
+    <!-- Radiating Lines -->
+    <g stroke="#FFFFFF" stroke-width="1" opacity="0.2">
+      <line x1="100" y1="20" x2="100" y2="40"/>
+      <line x1="100" y1="160" x2="100" y2="180"/>
+      <line x1="40" y1="100" x2="60" y2="100"/>
+      <line x1="160" y1="100" x2="140" y2="100"/>
+    </g>
+  </g>
+  
+  <!-- Banner Text -->
+  <g transform="translate(100 170)" font-family="Arial" font-weight="bold">
+    <text y="0" x="0" fill="#1E1B4B" font-size="16" opacity="0.8" transform="translate(2 2)">
+      <tspan>DAY 1</tspan>
+      <tspan x="0" dy="20">COMPLETE</tspan>
+    </text>
+    <text fill="#FFFFFF" font-size="16">
+      <tspan>DAY 1</tspan>
+      <tspan x="0" dy="20">COMPLETE</tspan>
+    </text>
+  </g>
+</svg>

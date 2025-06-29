@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="face-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#F59E0B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EF4444;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="edge-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D97706;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#B91C1C;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#0008" />
+    </filter>
+    <filter id="bevel" x="-10%" y="-10%" width="120%" height="120%">
+      <feSpecularLighting result="specOut" specularExponent="20" lighting-color="#ffffff">
+        <fePointLight x="100" y="60" z="100" />
+      </feSpecularLighting>
+      <feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" />
+    </filter>
+    <filter id="star-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="1" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- 3D effect base cylinder -->
+  <ellipse cx="100" cy="110" rx="90" ry="15" fill="url(#edge-grad)" opacity="0.6" filter="url(#shadow)" />
+  
+  <!-- 3D effect side cylinder -->
+  <path d="M10,100 A90,90 0 0,1 190,100 L190,110 A90,15 0 0,1 10,110 Z" fill="url(#edge-grad)" />
+  
+  <!-- Badge face -->
+  <circle cx="100" cy="100" r="90" fill="url(#face-grad)" filter="url(#bevel)" />
+  
+  <!-- Inner circle -->
+  <circle cx="100" cy="100" r="75" fill="#fff" opacity="0.15" />
+  
+  <!-- 3D Number 3 with shadow -->
+  <text x="100" y="75" text-anchor="middle" fill="#B91C1C" font-family="Arial, sans-serif" font-size="90" font-weight="bold" opacity="0.7" transform="translate(4,4)">3</text>
+  <text x="100" y="115" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="90" font-weight="bold">3</text>
+  
+  <!-- 3D Stars -->
+  <g filter="url(#star-glow)">
+    <!-- Star 1 shadow -->
+    <path d="M50,55 L52.5,60 L57.5,61.25 L53.75,65 L55,70 L50,67.5 L45,70 L46.25,65 L42.5,61.25 L47.5,60 L50,55 Z" 
+          fill="#B91C1C" opacity="0.7" transform="translate(2,2)" />
+    <!-- Star 1 -->
+    <path d="M50,50 L52.5,55 L57.5,56.25 L53.75,60 L55,65 L50,62.5 L45,65 L46.25,60 L42.5,56.25 L47.5,55 L50,50 Z" 
+          fill="white" />
+    
+    <!-- Star 2 shadow -->
+    <path d="M100,45 L102.5,50 L107.5,51.25 L103.75,55 L105,60 L100,57.5 L95,60 L96.25,55 L92.5,51.25 L97.5,50 L100,45 Z" 
+          fill="#B91C1C" opacity="0.7" transform="translate(2,2)" />
+    <!-- Star 2 -->
+    <path d="M100,40 L102.5,45 L107.5,46.25 L103.75,50 L105,55 L100,52.5 L95,55 L96.25,50 L92.5,46.25 L97.5,45 L100,40 Z" 
+          fill="white" />
+    
+    <!-- Star 3 shadow -->
+    <path d="M150,55 L152.5,60 L157.5,61.25 L153.75,65 L155,70 L150,67.5 L145,70 L146.25,65 L142.5,61.25 L147.5,60 L150,55 Z" 
+          fill="#B91C1C" opacity="0.7" transform="translate(2,2)" />
+    <!-- Star 3 -->
+    <path d="M150,50 L152.5,55 L157.5,56.25 L153.75,60 L155,65 L150,62.5 L145,65 L146.25,60 L142.5,56.25 L147.5,55 L150,50 Z" 
+          fill="white" />
+  </g>
+  
+  <!-- Badge text with 3D effect -->
+  <text x="100" y="172" text-anchor="middle" fill="#B91C1C" font-family="Arial, sans-serif" font-size="18" font-weight="bold" opacity="0.7" transform="translate(2,2)">3 DAY STREAK</text>
+  <text x="100" y="170" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="18" font-weight="bold">3 DAY STREAK</text>
+</svg>

@@ -1,0 +1,311 @@
+[
+  {
+    "data": {
+      "name": "Mayur Dongare",
+      "email": "mayurdongare666@gmail.com",
+      "skills": [
+        "Java",
+        "MERN",
+        "Firebase",
+        "React"
+      ],
+      "contributions": [],
+      "githubInfo": {
+        "username": "",
+        "publicRepos": 0,
+        "followers": 0,
+        "following": 0,
+        "stars": 0
+      },
+      "chatbotInteractions": {
+        "totalSessions": 1,
+        "totalMessages": 0,
+        "lastInteraction": null,
+        "lastMessage": ""
+      },
+      "websiteEvents": {
+        "theme": "dark",
+        "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_2": {
+          "state": "current",
+          "updateTimeMs": 1744840512603
+        },
+        "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_26": {
+          "state": "rejected",
+          "updateTimeMs": 1744840502708,
+          "error": {
+            "code": "failed-precondition",
+            "message": "The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/hackathon-project1-37572/firestore/indexes?create_composite=Clxwcm9qZWN0cy9oYWNrYXRob24tcHJvamVjdDEtMzc1NzIvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL2NoYXRIaXN0b3J5L2luZGV4ZXMvXxABGgoKBnVzZXJJZBABGg0KCXRpbWVzdGFtcBACGgwKCF9fbmFtZV9fEAI"
+          }
+        },
+        "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_4": {
+          "state": "current",
+          "updateTimeMs": 1744840512603
+        },
+        "user": {
+          "company": "",
+          "bio": "",
+          "updatedAt": {
+            "seconds": 1744576914,
+            "nanoseconds": 624000000
+          },
+          "twitterUsername": "",
+          "linkedinUrl": "",
+          "email": "mayurdongare666@gmail.com",
+          "githubUsername": "",
+          "skills": [
+            "Java",
+            "MERN",
+            "Firebase",
+            "React"
+          ],
+          "location": "",
+          "website": "",
+          "createdAt": {
+            "seconds": 1744575554,
+            "nanoseconds": 540000000
+          },
+          "displayName": "Mayur Dongare"
+        },
+        "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_24": {
+          "state": "rejected",
+          "updateTimeMs": 1744840502374,
+          "error": {
+            "code": "failed-precondition",
+            "message": "The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/hackathon-project1-37572/firestore/indexes?create_composite=Clxwcm9qZWN0cy9oYWNrYXRob24tcHJvamVjdDEtMzc1NzIvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL3NhdmVkSXNzdWVzL2luZGV4ZXMvXxABGgoKBnVzZXJJZBABGgsKB3NhdmVkQXQQAhoMCghfX25hbWVfXxAC"
+          }
+        },
+        "firestore_clients_firestore/[DEFAULT]/hackathon-project1-37572/_4YaTo7KtDnREorKCOexI": {
+          "activeTargetIds": [
+            2,
+            4
+          ],
+          "updateTimeMs": 1744840512237
+        },
+        "firestore_online_state_firestore/[DEFAULT]/hackathon-project1-37572/": {
+          "clientId": "4YaTo7KtDnREorKCOexI",
+          "onlineState": "Online"
+        },
+        "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_22": {
+          "state": "rejected",
+          "updateTimeMs": 1744840501817,
+          "error": {
+            "code": "failed-precondition",
+            "message": "The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/hackathon-project1-37572/firestore/indexes?create_composite=Cl5wcm9qZWN0cy9oYWNrYXRob24tcHJvamVjdDEtMzc1NzIvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL2NvbnRyaWJ1dGlvbnMvaW5kZXhlcy9fEAEaCgoGdXNlcklkEAEaDQoJdGltZXN0YW1wEAIaDAoIX19uYW1lX18QAg"
+          }
+        },
+        "firestore_sequence_number_firestore/[DEFAULT]/hackathon-project1-37572/": 674,
+        "lastVisit": "2025-04-16T21:55:12.604Z",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+        "screenSize": "1536x776"
+      },
+      "timestamp": "2025-04-16T21:55:12.604Z"
+    },
+    "timestamp": "2025-04-16T21:55:12.638Z"
+  },
+  {
+    "data": {
+      "name": "Mayur Dongare",
+      "email": "mayurdongare666@gmail.com",
+      "skills": [
+        "Java",
+        "MERN",
+        "Firebase",
+        "React"
+      ],
+      "contributions": [],
+      "githubInfo": {
+        "username": "",
+        "publicRepos": 0,
+        "followers": 0,
+        "following": 0,
+        "stars": 0
+      },
+      "chatbotInteractions": {
+        "totalSessions": 1,
+        "totalMessages": 0,
+        "lastInteraction": null,
+        "lastMessage": ""
+      },
+      "websiteEvents": {
+        "theme": "dark",
+        "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_26": {
+          "state": "rejected",
+          "updateTimeMs": 1744840502708,
+          "error": {
+            "code": "failed-precondition",
+            "message": "The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/hackathon-project1-37572/firestore/indexes?create_composite=Clxwcm9qZWN0cy9oYWNrYXRob24tcHJvamVjdDEtMzc1NzIvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL2NoYXRIaXN0b3J5L2luZGV4ZXMvXxABGgoKBnVzZXJJZBABGg0KCXRpbWVzdGFtcBACGgwKCF9fbmFtZV9fEAI"
+          }
+        },
+        "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_4": {
+          "state": "current",
+          "updateTimeMs": 1744840560017
+        },
+        "user": {
+          "company": "",
+          "bio": "",
+          "updatedAt": {
+            "seconds": 1744576914,
+            "nanoseconds": 624000000
+          },
+          "twitterUsername": "",
+          "linkedinUrl": "",
+          "email": "mayurdongare666@gmail.com",
+          "githubUsername": "",
+          "skills": [
+            "Java",
+            "MERN",
+            "Firebase",
+            "React"
+          ],
+          "location": "",
+          "website": "",
+          "createdAt": {
+            "seconds": 1744575554,
+            "nanoseconds": 540000000
+          },
+          "displayName": "Mayur Dongare"
+        },
+        "firestore_clients_firestore/[DEFAULT]/hackathon-project1-37572/_4YaTo7KtDnREorKCOexI": {
+          "activeTargetIds": [
+            2,
+            4
+          ],
+          "updateTimeMs": 1744840559682
+        },
+        "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_22": {
+          "state": "rejected",
+          "updateTimeMs": 1744840501817,
+          "error": {
+            "code": "failed-precondition",
+            "message": "The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/hackathon-project1-37572/firestore/indexes?create_composite=Cl5wcm9qZWN0cy9oYWNrYXRob24tcHJvamVjdDEtMzc1NzIvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL2NvbnRyaWJ1dGlvbnMvaW5kZXhlcy9fEAEaCgoGdXNlcklkEAEaDQoJdGltZXN0YW1wEAIaDAoIX19uYW1lX18QAg"
+          }
+        },
+        "firestore_sequence_number_firestore/[DEFAULT]/hackathon-project1-37572/": 713,
+        "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_2": {
+          "state": "current",
+          "updateTimeMs": 1744840560017
+        },
+        "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_24": {
+          "state": "rejected",
+          "updateTimeMs": 1744840502374,
+          "error": {
+            "code": "failed-precondition",
+            "message": "The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/hackathon-project1-37572/firestore/indexes?create_composite=Clxwcm9qZWN0cy9oYWNrYXRob24tcHJvamVjdDEtMzc1NzIvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL3NhdmVkSXNzdWVzL2luZGV4ZXMvXxABGgoKBnVzZXJJZBABGgsKB3NhdmVkQXQQAhoMCghfX25hbWVfXxAC"
+          }
+        },
+        "firestore_online_state_firestore/[DEFAULT]/hackathon-project1-37572/": {
+          "clientId": "4YaTo7KtDnREorKCOexI",
+          "onlineState": "Online"
+        },
+        "analytics_log": [
+          {
+            "name": "Mayur Dongare",
+            "email": "mayurdongare666@gmail.com",
+            "skills": [
+              "Java",
+              "MERN",
+              "Firebase",
+              "React"
+            ],
+            "contributions": [],
+            "githubInfo": {
+              "username": "",
+              "publicRepos": 0,
+              "followers": 0,
+              "following": 0,
+              "stars": 0
+            },
+            "chatbotInteractions": {
+              "totalSessions": 1,
+              "totalMessages": 0,
+              "lastInteraction": null,
+              "lastMessage": ""
+            },
+            "websiteEvents": {
+              "theme": "dark",
+              "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_2": {
+                "state": "current",
+                "updateTimeMs": 1744840512603
+              },
+              "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_26": {
+                "state": "rejected",
+                "updateTimeMs": 1744840502708,
+                "error": {
+                  "code": "failed-precondition",
+                  "message": "The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/hackathon-project1-37572/firestore/indexes?create_composite=Clxwcm9qZWN0cy9oYWNrYXRob24tcHJvamVjdDEtMzc1NzIvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL2NoYXRIaXN0b3J5L2luZGV4ZXMvXxABGgoKBnVzZXJJZBABGg0KCXRpbWVzdGFtcBACGgwKCF9fbmFtZV9fEAI"
+                }
+              },
+              "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_4": {
+                "state": "current",
+                "updateTimeMs": 1744840512603
+              },
+              "user": {
+                "company": "",
+                "bio": "",
+                "updatedAt": {
+                  "seconds": 1744576914,
+                  "nanoseconds": 624000000
+                },
+                "twitterUsername": "",
+                "linkedinUrl": "",
+                "email": "mayurdongare666@gmail.com",
+                "githubUsername": "",
+                "skills": [
+                  "Java",
+                  "MERN",
+                  "Firebase",
+                  "React"
+                ],
+                "location": "",
+                "website": "",
+                "createdAt": {
+                  "seconds": 1744575554,
+                  "nanoseconds": 540000000
+                },
+                "displayName": "Mayur Dongare"
+              },
+              "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_24": {
+                "state": "rejected",
+                "updateTimeMs": 1744840502374,
+                "error": {
+                  "code": "failed-precondition",
+                  "message": "The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/hackathon-project1-37572/firestore/indexes?create_composite=Clxwcm9qZWN0cy9oYWNrYXRob24tcHJvamVjdDEtMzc1NzIvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL3NhdmVkSXNzdWVzL2luZGV4ZXMvXxABGgoKBnVzZXJJZBABGgsKB3NhdmVkQXQQAhoMCghfX25hbWVfXxAC"
+                }
+              },
+              "firestore_clients_firestore/[DEFAULT]/hackathon-project1-37572/_4YaTo7KtDnREorKCOexI": {
+                "activeTargetIds": [
+                  2,
+                  4
+                ],
+                "updateTimeMs": 1744840512237
+              },
+              "firestore_online_state_firestore/[DEFAULT]/hackathon-project1-37572/": {
+                "clientId": "4YaTo7KtDnREorKCOexI",
+                "onlineState": "Online"
+              },
+              "firestore_targets_firestore/[DEFAULT]/hackathon-project1-37572/_22": {
+                "state": "rejected",
+                "updateTimeMs": 1744840501817,
+                "error": {
+                  "code": "failed-precondition",
+                  "message": "The query requires an index. You can create it here: https://console.firebase.google.com/v1/r/project/hackathon-project1-37572/firestore/indexes?create_composite=Cl5wcm9qZWN0cy9oYWNrYXRob24tcHJvamVjdDEtMzc1NzIvZGF0YWJhc2VzLyhkZWZhdWx0KS9jb2xsZWN0aW9uR3JvdXBzL2NvbnRyaWJ1dGlvbnMvaW5kZXhlcy9fEAEaCgoGdXNlcklkEAEaDQoJdGltZXN0YW1wEAIaDAoIX19uYW1lX18QAg"
+                }
+              },
+              "firestore_sequence_number_firestore/[DEFAULT]/hackathon-project1-37572/": 674,
+              "lastVisit": "2025-04-16T21:55:12.604Z",
+              "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+              "screenSize": "1536x776"
+            },
+            "timestamp": "2025-04-16T21:55:12.604Z",
+            "sent": true
+          }
+        ],
+        "lastVisit": "2025-04-16T21:56:00.018Z",
+        "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36",
+        "screenSize": "1536x776"
+      },
+      "timestamp": "2025-04-16T21:56:00.018Z"
+    },
+    "timestamp": "2025-04-16T21:56:00.031Z"
+  }
+]

@@ -1,0 +1,124 @@
+/* Base theme variables */
+:root {
+  /* Default theme (Light) */
+  --color-background: #F9FAFB;
+  --color-background-secondary: #F3F4F6;
+  --color-text: #111827;
+  --color-text-secondary: #4B5563;
+  --color-primary: #1F3BFF;
+  --color-secondary: #FFA500;
+  --color-accent: #3B82F6;
+}
+
+/* Dark theme */
+.dark {
+  --color-background: #0A0A0A;
+  --color-background-secondary: #111827;
+  --color-text: #F9FAFB;
+  --color-text-secondary: #D1D5DB;
+  --color-primary: #1F3BFF;
+  --color-secondary: #FFA500;
+  --color-accent: #3B82F6;
+}
+
+/* Blue theme */
+.blue {
+  --color-background: #0F172A;
+  --color-background-secondary: #1E293B;
+  --color-text: #F8FAFC;
+  --color-text-secondary: #CBD5E1;
+  --color-primary: #38BDF8;
+  --color-secondary: #F472B6;
+  --color-accent: #60A5FA;
+}
+
+/* Purple theme */
+.purple {
+  --color-background: #13111C;
+  --color-background-secondary: #1F1A2E;
+  --color-text: #F5F3FF;
+  --color-text-secondary: #DDD6FE;
+  --color-primary: #8B5CF6;
+  --color-secondary: #EC4899;
+  --color-accent: #A78BFA;
+}
+
+/* Green theme */
+.green {
+  --color-background: #0F1922;
+  --color-background-secondary: #132E32;
+  --color-text: #ECFDF5;
+  --color-text-secondary: #A7F3D0;
+  --color-primary: #10B981;
+  --color-secondary: #F59E0B;
+  --color-accent: #34D399;
+}
+
+/* Add transition for theme changes */
+body {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Default light theme styles */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+/* Additional styles based on theme */
+.dark button.primary {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+/* Utility classes for background elements */
+.bg-theme-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-theme-secondary {
+  background-color: var(--color-secondary);
+}
+
+.bg-theme-accent {
+  background-color: var(--color-accent);
+}
+
+.bg-theme {
+  background-color: var(--color-background);
+}
+
+.bg-theme-secondary {
+  background-color: var(--color-background-secondary);
+}
+
+/* Text color utilities */
+.text-theme {
+  color: var(--color-text);
+}
+
+.text-theme-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-theme-primary {
+  color: var(--color-primary);
+}
+
+.text-theme-accent {
+  color: var(--color-accent);
+}
+
+/* Border colors */
+.border-theme {
+  border-color: var(--color-text-secondary);
+}
+
+.border-theme-primary {
+  border-color: var(--color-primary);
+}
+
+/* Custom gradients */
+.bg-gradient-theme {
+  background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+} 

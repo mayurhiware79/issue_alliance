@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#7c3aed" />
+    </linearGradient>
+    <linearGradient id="innerCircleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#818cf8" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+    <!-- Filter for shadow effect -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.3" />
+    </filter>
+  </defs>
+  
+  <!-- Badge Circle Background -->
+  <circle cx="100" cy="100" r="95" fill="url(#bgGradient)" filter="url(#shadow)" />
+  
+  <!-- Inner circle -->
+  <circle cx="100" cy="100" r="80" fill="url(#innerCircleGradient)" />
+  
+  <!-- Week Label -->
+  <text x="100" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="24" fill="white">WEEK 1</text>
+  
+  <!-- Trophy Icon -->
+  <path d="M115,100 L115,120 L85,120 L85,100 Z M125,60 L125,70 L130,70 L130,75 C130,87.1 120.1,97 108,97 L100,97 L100,115 L110,115 L110,125 L90,125 L90,115 L100,115 L100,97 L92,97 C79.9,97 70,87.1 70,75 L70,70 L75,70 L75,60 L125,60 Z M115,70 L85,70 L85,90 C85,92.8 87.2,95 90,95 L110,95 C112.8,95 115,92.8 115,90 L115,70 Z M75,80 L75,75 L80,75 L80,85 C80,86.7 80.3,88.3 80.8,89.9 C78.1,87.4 76.2,84 75.4,80 L75,80 Z M120,75 L125,75 L124.6,80 C123.8,84 121.9,87.4 119.2,89.9 C119.7,88.3 120,86.7 120,85 L120,75 Z" fill="white" transform="translate(0, -15) scale(0.8)"/>
+  
+  <!-- Badge Text -->
+  <text x="100" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="18" fill="white">COMPLETED</text>
+  
+  <!-- Stars around the edge -->
+  <g fill="white" opacity="0.8">
+    <!-- Top star -->
+    <path d="M100,15 L102,20 L107,20 L103,24 L105,29 L100,26 L95,29 L97,24 L93,20 L98,20 Z" />
+    <!-- Right star -->
+    <path d="M173,80 L175,85 L180,85 L176,89 L178,94 L173,91 L168,94 L170,89 L166,85 L171,85 Z" />
+    <!-- Bottom star -->
+    <path d="M100,175 L102,180 L107,180 L103,184 L105,189 L100,186 L95,189 L97,184 L93,180 L98,180 Z" />
+    <!-- Left star -->
+    <path d="M27,80 L29,85 L34,85 L30,89 L32,94 L27,91 L22,94 L24,89 L20,85 L25,85 Z" />
+  </g>
+  
+  <!-- Animated sparkle (will show up when SVG supports animation) -->
+  <g fill="white" opacity="0.9">
+    <circle cx="60" cy="60" r="2">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="140" cy="60" r="2">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" begin="0.5s" />
+    </circle>
+    <circle cx="60" cy="140" r="2">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" begin="1s" />
+    </circle>
+    <circle cx="140" cy="140" r="2">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" begin="1.5s" />
+    </circle>
+  </g>
+</svg> 

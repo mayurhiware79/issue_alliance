@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <!-- Gradient definitions -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <linearGradient id="innerCircleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" />
+      <stop offset="100%" stop-color="#10b981" />
+    </linearGradient>
+    <!-- Filter for shadow effect -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.3" />
+    </filter>
+    <!-- Filter for inner glow -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Badge Circle Background -->
+  <circle cx="100" cy="100" r="95" fill="url(#bgGradient)" filter="url(#shadow)" />
+  
+  <!-- Inner circle -->
+  <circle cx="100" cy="100" r="80" fill="url(#innerCircleGradient)" />
+  
+  <!-- Week Label -->
+  <text x="100" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="24" fill="white">WEEK 2</text>
+  
+  <!-- Crown Icon -->
+  <path d="M65,105 L135,105 L125,85 L100,95 L75,85 L65,105 Z M65,115 L135,115 L135,110 L65,110 L65,115 Z" fill="white" transform="translate(0, -20) scale(1)" />
+  
+  <!-- Badge Text -->
+  <text x="100" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="18" fill="white">COMPLETED</text>
+  
+  <!-- Stars around the edge -->
+  <g fill="white" opacity="0.8">
+    <!-- Top star -->
+    <path d="M100,15 L102,20 L107,20 L103,24 L105,29 L100,26 L95,29 L97,24 L93,20 L98,20 Z" />
+    <!-- Right star -->
+    <path d="M173,80 L175,85 L180,85 L176,89 L178,94 L173,91 L168,94 L170,89 L166,85 L171,85 Z" />
+    <!-- Bottom star -->
+    <path d="M100,175 L102,180 L107,180 L103,184 L105,189 L100,186 L95,189 L97,184 L93,180 L98,180 Z" />
+    <!-- Left star -->
+    <path d="M27,80 L29,85 L34,85 L30,89 L32,94 L27,91 L22,94 L24,89 L20,85 L25,85 Z" />
+  </g>
+  
+  <!-- Animated pulsing ring -->
+  <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="1" opacity="0.6">
+    <animate attributeName="r" values="85;92;85" dur="3s" repeatCount="indefinite" />
+    <animate attributeName="opacity" values="0.2;0.6;0.2" dur="3s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Medal ribbon -->
+  <path d="M90,120 L80,140 L100,130 L120,140 L110,120" fill="#fcd34d" stroke="white" stroke-width="1" />
+  
+  <!-- Number 2 with special styling -->
+  <text x="100" y="120" text-anchor="middle" font-family="Arial, sans-serif" font-weight="bold" font-size="40" fill="white" filter="url(#glow)">2</text>
+</svg> 
