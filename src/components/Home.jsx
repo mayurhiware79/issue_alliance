@@ -334,15 +334,7 @@ const Home = () => {
                     </GlowButton>
                   </div>
                   {/* Demo button — prominent, no account needed */}
-                  <motion.button
-                    onClick={handleDemoClick}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-8 py-3 rounded-xl font-semibold text-base transition-all shadow-lg hover:shadow-xl"
-                  >
-                    <FaFlask />
-                    Try Demo — No Sign-up Needed
-                  </motion.button>
+                  
                 </div>
               )}
             </motion.div>
