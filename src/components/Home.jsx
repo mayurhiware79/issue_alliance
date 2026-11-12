@@ -333,14 +333,44 @@ const Home = () => {
                       <Link to="/register">Register</Link>
                     </GlowButton>
                   </div>
-                  {/* Demo button — prominent, no account needed */}
-                  
+
+                  {/* ── Demo hint card ── */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.6, duration: 0.5 }}
+                    className={`mt-2 flex items-center gap-3 px-5 py-3 rounded-2xl border-2 border-dashed
+                      ${darkMode
+                        ? 'border-blue-400/50 bg-blue-900/30 text-blue-200'
+                        : 'border-blue-400 bg-blue-50 text-blue-700'}
+                      shadow-sm max-w-sm w-full`}
+                  >
+                    {/* animated pointer emoji */}
+                    <motion.span
+                      className="text-2xl select-none"
+                      animate={{ x: [0, 6, 0] }}
+                      transition={{ repeat: Infinity, duration: 1.2, ease: 'easeInOut' }}
+                    >
+                      👆
+                    </motion.span>
+                    <p className="text-sm leading-snug text-left">
+                      <span className="font-bold">Just exploring?</span>
+                      <br />
+                      Click <span className="font-semibold underline underline-offset-2 cursor-pointer"
+                        onClick={() => setShowLoginPopup(true)}>Sign In</span> → use{' '}
+                      <span className={`font-mono font-semibold px-1 py-0.5 rounded text-xs
+                        ${darkMode ? 'bg-blue-800 text-blue-200' : 'bg-blue-100 text-blue-700'}`}>
+                        Demo Account
+                      </span>{' '}
+                      to explore everything - no sign-up needed.
+                    </p>
+                  </motion.div>
                 </div>
               )}
             </motion.div>
 
             <motion.div
-              className="mt-16"
+              className="mt-9"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
