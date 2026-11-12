@@ -1,10 +1,6 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-
-// Initialize the Gemini AI client
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-console.log("Gemini API Key available:", !!API_KEY);
-
-const genAI = new GoogleGenerativeAI(API_KEY);
+// Gemini requests go through the /api/gemini Netlify Function so the API key
+// never reaches the browser.
+import { generateGeminiText } from "./geminiClient";
 
 /**
  * Generate a brief summary of an issue using Gemini AI
@@ -13,13 +9,6 @@ const genAI = new GoogleGenerativeAI(API_KEY);
  */
 export async function generateIssueSummary(issue) {
   try {
-    if (!API_KEY) {
-      throw new Error(
-        "Gemini API key is not configured. Please check your .env file."
-      );
-    }
-
-    const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
 
     // Safely extract repository information
     let repositoryInfo = "Unknown Repository";
@@ -57,9 +46,7 @@ export async function generateIssueSummary(issue) {
     Repository: ${repositoryInfo}`;
 
     console.log("Sending prompt to Gemini:", prompt);
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const summary = response.text();
+    const summary = await generateGeminiText(prompt);
     console.log("Received summary from Gemini:", summary);
 
     return summary;
@@ -175,14 +162,12 @@ const mockQuestions = {
 export async function generateSkillQuestions(skill, count = 5) {
   try {
     // Check if we should use the API or mock data
-    const useAPI = import.meta.env.VITE_GEMINI_API_KEY && false; // Set to true when ready to use the API
+    const useAPI = false; // Set to true when ready to use the API
 
     if (useAPI) {
       // Commented out for now - Implement with actual Gemini API when ready
       /*
-      const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
-      const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
-      
+            
       const prompt = `
         Generate ${count} multiple-choice questions to test someone's knowledge of ${skill} programming.
         
@@ -201,9 +186,7 @@ export async function generateSkillQuestions(skill, count = 5) {
         ]
       `;
       
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      const text = response.text();
+      const text = await generateGeminiText(prompt);
       
       // Parse JSON from the response
       try {
@@ -346,13 +329,6 @@ function getRandomSelection(array, count) {
  */
 export async function generateLeaderboardDescription(username, rank = 1, points = 100) {
   try {
-    if (!API_KEY) {
-      throw new Error(
-        "Gemini API key is not configured. Please check your .env file."
-      );
-    }
-
-    const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
 
     const prompt = `
     Generate a creative and enthusiastic description for a LinkedIn post about a user's achievement on the IssueAlliance open source platform.
@@ -380,9 +356,7 @@ export async function generateLeaderboardDescription(username, rank = 1, points 
     `;
 
     console.log("Sending leaderboard description prompt to Gemini");
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const text = await generateGeminiText(prompt);
 
     try {
       // Try to parse the response as JSON

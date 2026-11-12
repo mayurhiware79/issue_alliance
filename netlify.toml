@@ -4,8 +4,14 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # These values are intentionally public: Vite inlines them into the browser
+  # bundle (Firebase web config, OAuth client ID/redirect, public API URL) or they
+  # appear in non-secret repo files. Real secrets (GitHub token, Gemini key,
+  # client secrets) are only read server-side by Netlify Functions.
+  SECRETS_SCAN_OMIT_KEYS = "VITE_API_URL,VITE_FIREBASE_API_KEY,VITE_FIREBASE_APP_ID,VITE_FIREBASE_AUTH_DOMAIN,VITE_FIREBASE_MEASUREMENT_ID,VITE_FIREBASE_MESSAGING_SENDER_ID,VITE_FIREBASE_PROJECT_ID,VITE_FIREBASE_STORAGE_BUCKET,VITE_GOOGLE_CLIENT_ID,VITE_GOOGLE_REDIRECT_URI"
 
 # SPA redirect — all routes handled by index.html
+# (Netlify Functions on /api/* are matched before this rewrite)
 [[redirects]]
   from = "/*"
   to = "/index.html"
