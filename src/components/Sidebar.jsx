@@ -267,7 +267,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
     <nav className="space-y-6 px-2 py-4 mb-14">
       {menuSections.map((section, index) => (
         <div key={index} className="rounded-lg overflow-hidden">
-          <button 
+          <button
             onClick={() => toggleSection(section.id)}
             className="w-full flex items-center justify-between text-xs font-semibold text-theme-secondary uppercase tracking-wider px-4 py-2 hover:bg-theme-secondary/10 rounded-md"
           >
@@ -279,11 +279,10 @@ function Sidebar({ isOpen, toggleSidebar }) {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`flex items-center hover:text-blue-600 duration-300 group space-x-3 ${
-                  isActive(item.path)
-                    ? "text-blue-600 bg-blue-50 dark:bg-blue-900/30 dark:text-blue-400"
-                    : "text-theme hover:bg-theme-secondary/30"
-                } rounded-lg px-4 py-2.5 font-medium transition-colors relative overflow-hidden`}
+                className={`flex items-center hover:text-blue-600 duration-300 group space-x-3 ${isActive(item.path)
+                  ? "text-blue-600 bg-blue-50 dark:bg-blue-900/30 dark:text-blue-400"
+                  : "text-theme hover:bg-theme-secondary/30"
+                  } rounded-lg px-4 py-2.5 font-medium transition-colors relative overflow-hidden`}
               >
                 <span className={`flex-shrink-0 ${isActive(item.path) ? "text-blue-600 ml-2 dark:text-blue-400" : "text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400"}`}>
                   {item.icon}
@@ -383,9 +382,8 @@ function Sidebar({ isOpen, toggleSidebar }) {
 
       {/* Sidebar container */}
       <div
-        className={`fixed top-0 left-0 bottom-0 w-64 bg-theme z-50 transform transition-transform duration-300 ease-in-out ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:static lg:z-0 shadow-xl lg:shadow-none`}
+        className={`fixed top-0 left-0 bottom-0 w-64 bg-theme z-50 transform transition-transform duration-300 ease-in-out ${isOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0 lg:static lg:z-0 shadow-xl lg:shadow-none`}
       >
         {/* Main sidebar content with scrolling */}
         <div className="flex flex-col h-full pb-28  overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700">
@@ -397,7 +395,7 @@ function Sidebar({ isOpen, toggleSidebar }) {
         {renderGithubConnection()}
       </div>
 
-    
+
     </>
   );
 }

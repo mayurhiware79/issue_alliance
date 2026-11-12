@@ -50,7 +50,7 @@ function Dashboard() {
   const [bookmarkedIssues, setBookmarkedIssues] = useState([]);
   const [issuesRequested, setIssuesRequested] = useState(false);
   const [dailyChallengeStreak, setDailyChallengeStreak] = useState(0);
-  
+
   // Add loading stages state like in PersonalizedIssues
   const [loadingStage, setLoadingStage] = useState(0);
   const loadingStages = [
@@ -114,7 +114,7 @@ function Dashboard() {
   const fetchRecommendedIssues = async () => {
     setLoadingIssues(true);
     setIssuesRequested(true);
-    
+
     // Start the loading animation sequence
     setLoadingStage(0);
     const loadingInterval = setInterval(() => {
@@ -123,7 +123,7 @@ function Dashboard() {
         return prev;
       });
     }, 1500); // Transition to next stage every 1.5 seconds
-    
+
     try {
       // Get personalized issue recommendations using the matching service
       const issues = await findMatchingIssuesForUser(currentUser.uid);
@@ -301,9 +301,8 @@ function Dashboard() {
             <p className="text-blue-100 text-sm">Your contribution status</p>
             <p className="font-semibold text-lg">
               {activeContributions.length > 0
-                ? `${activeContributions.length} active contribution${
-                    activeContributions.length !== 1 ? "s" : ""
-                  }`
+                ? `${activeContributions.length} active contribution${activeContributions.length !== 1 ? "s" : ""
+                }`
                 : "No active contributions yet"}
             </p>
           </div>
@@ -373,11 +372,10 @@ function Dashboard() {
                   </p>
                   <button
                     onClick={() => navigate("/profile")}
-                    className={`${
-                      userProfile?.githubConnected
-                        ? isDarkMode ? "bg-green-900/30 text-green-300" : "bg-green-100 text-green-800"
-                        : isDarkMode ? "bg-gray-700 hover:bg-gray-600 text-gray-200" : "bg-gray-100 hover:bg-gray-200 text-gray-800"
-                    } 
+                    className={`${userProfile?.githubConnected
+                      ? isDarkMode ? "bg-green-900/30 text-green-300" : "bg-green-100 text-green-800"
+                      : isDarkMode ? "bg-gray-700 hover:bg-gray-600 text-gray-200" : "bg-gray-100 hover:bg-gray-200 text-gray-800"
+                      } 
                       px-4 py-2 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-2`}
                   >
                     <FaGithub className="w-4 h-4" />
@@ -407,11 +405,10 @@ function Dashboard() {
                   </p>
                   <button
                     onClick={() => navigate("/profile")}
-                    className={`${
-                      userProfile?.skills?.length > 0
-                        ? isDarkMode ? "bg-green-900/30 text-green-300" : "bg-green-100 text-green-800"
-                        : "bg-blue-600 hover:bg-blue-700 text-white"
-                    } 
+                    className={`${userProfile?.skills?.length > 0
+                      ? isDarkMode ? "bg-green-900/30 text-green-300" : "bg-green-100 text-green-800"
+                      : "bg-blue-600 hover:bg-blue-700 text-white"
+                      } 
                       px-4 py-2 rounded-lg text-sm font-medium transition-colors inline-flex items-center gap-2`}
                   >
                     {userProfile?.skills?.length > 0 ? (
@@ -482,9 +479,8 @@ function Dashboard() {
                     <div
                       className="bg-blue-600 h-2.5 rounded-full transition-all duration-300 ease-in-out"
                       style={{
-                        width: `${
-                          ((loadingStage + 1) / loadingStages.length) * 100
-                        }%`,
+                        width: `${((loadingStage + 1) / loadingStages.length) * 100
+                          }%`,
                       }}
                     ></div>
                   </div>
@@ -494,25 +490,22 @@ function Dashboard() {
                     {loadingStages.map((stage, index) => (
                       <div
                         key={index}
-                        className={`flex items-center transition-opacity duration-300 ${
-                          index <= loadingStage ? "opacity-100" : "opacity-30"
-                        }`}
+                        className={`flex items-center transition-opacity duration-300 ${index <= loadingStage ? "opacity-100" : "opacity-30"
+                          }`}
                       >
                         <div
-                          className={`mr-3 ${
-                            index <= loadingStage 
-                              ? isDarkMode ? "text-blue-400" : "text-blue-500" 
-                              : isDarkMode ? "text-gray-500" : "text-gray-400"
-                          }`}
+                          className={`mr-3 ${index <= loadingStage
+                            ? isDarkMode ? "text-blue-400" : "text-blue-500"
+                            : isDarkMode ? "text-gray-500" : "text-gray-400"
+                            }`}
                         >
                           {React.createElement(stage.icon, { size: 16 })}
                         </div>
                         <span
-                          className={`text-sm ${
-                            index <= loadingStage 
-                              ? isDarkMode ? "text-gray-200" : "text-gray-700" 
-                              : isDarkMode ? "text-gray-500" : "text-gray-400"
-                          }`}
+                          className={`text-sm ${index <= loadingStage
+                            ? isDarkMode ? "text-gray-200" : "text-gray-700"
+                            : isDarkMode ? "text-gray-500" : "text-gray-400"
+                            }`}
                         >
                           {stage.text}
                         </span>
@@ -582,8 +575,7 @@ function Dashboard() {
                         <a
                           href={
                             match.issue.repository_html_url ||
-                            `https://github.com/${
-                              match.issue.repository?.full_name || ""
+                            `https://github.com/${match.issue.repository?.full_name || ""
                             }`
                           }
                           target="_blank"
@@ -692,11 +684,10 @@ function Dashboard() {
               <div className={`flex justify-between items-center pb-3 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-100'}`}>
                 <span className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}>GitHub</span>
                 <span
-                  className={`font-medium ${
-                    userProfile?.githubConnected
-                      ? isDarkMode ? "text-green-400" : "text-green-600"
-                      : isDarkMode ? "text-blue-400" : "text-blue-600"
-                  }`}
+                  className={`font-medium ${userProfile?.githubConnected
+                    ? isDarkMode ? "text-green-400" : "text-green-600"
+                    : isDarkMode ? "text-blue-400" : "text-blue-600"
+                    }`}
                 >
                   {userProfile?.githubConnected ? (
                     <>
@@ -721,11 +712,10 @@ function Dashboard() {
 
             <button
               onClick={() => navigate("/profile")}
-              className={`mt-6 w-full ${
-                isDarkMode 
-                  ? 'bg-blue-900/20 hover:bg-blue-900/30 text-blue-400' 
-                  : 'bg-blue-50 hover:bg-blue-100 text-blue-600'
-              } px-4 py-2 rounded-lg text-sm font-medium transition-colors`}
+              className={`mt-6 w-full ${isDarkMode
+                ? 'bg-blue-900/20 hover:bg-blue-900/30 text-blue-400'
+                : 'bg-blue-50 hover:bg-blue-100 text-blue-600'
+                } px-4 py-2 rounded-lg text-sm font-medium transition-colors`}
             >
               Edit Profile
             </button>

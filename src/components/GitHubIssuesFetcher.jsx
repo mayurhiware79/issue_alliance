@@ -112,17 +112,17 @@ function GitHubIssuesFetcher() {
     try {
       // Create a unique ID for this search session
       const searchSessionId = `${currentUser.uid}-${Date.now()}`;
-      
+
       // Create the search document
       const searchRef = doc(db, "skillSearches", searchSessionId);
-      
+
       await setDoc(searchRef, {
         userId: currentUser.uid,
         skills: skills,
         timestamp: Timestamp.now(),
         resultsCount: null, // Will be updated when results come back
       });
-      
+
       return searchSessionId;
     } catch (err) {
       console.error("Error storing skill search:", err);
@@ -147,7 +147,7 @@ function GitHubIssuesFetcher() {
         console.warn(
           `Search document ${searchId} does not exist. Creating a new one.`
         );
-        
+
         // Create the search document if it doesn't exist
         try {
           await setDoc(searchRef, {
@@ -252,8 +252,7 @@ function GitHubIssuesFetcher() {
       console.error("Error saving/removing issue:", error);
       // Show error message to user
       setError(
-        `Failed to ${isCurrentlySaved ? "remove" : "save"} issue: ${
-          error.message
+        `Failed to ${isCurrentlySaved ? "remove" : "save"} issue: ${error.message
         }`
       );
       setTimeout(() => setError(null), 5000);
@@ -286,7 +285,7 @@ function GitHubIssuesFetcher() {
     try {
       // Log the issue object to better understand its structure
       console.log("Missing required issue properties: ", issue);
-      
+
       // Set loading state for this specific issue
       setContributingIssueId(issue.id);
       setError(null);
@@ -307,7 +306,7 @@ function GitHubIssuesFetcher() {
           // Make sure we have all the required properties from the issue object
           // GitHub API sometimes returns html_url instead of url
           const issueUrl = issue.url || issue.html_url || "";
-          
+
           if (!issue.id || !issue.title || (!issueUrl) || !issue.repository?.full_name) {
             console.error("Missing required issue properties:", issue);
             setError("Issue data is incomplete. Please try again with another issue.");
@@ -321,7 +320,7 @@ function GitHubIssuesFetcher() {
             title: issue.title || "Untitled Issue",
             url: issueUrl, // Use the url we determined above
             repository: issue.repository?.full_name || "",
-            repositoryUrl: issue.repository?.full_name 
+            repositoryUrl: issue.repository?.full_name
               ? `https://github.com/${issue.repository.full_name}`
               : "",
             startedAt: new Date().toISOString(),
@@ -633,11 +632,10 @@ function GitHubIssuesFetcher() {
 
               <button
                 onClick={handleUseMySkills}
-                className={`px-4 py-2 rounded-lg flex items-center whitespace-nowrap ${
-                  matchingBySkills
+                className={`px-4 py-2 rounded-lg flex items-center whitespace-nowrap ${matchingBySkills
                     ? "bg-blue-600 text-white hover:bg-blue-700"
                     : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-                } transition-colors`}
+                  } transition-colors`}
                 title={
                   userSkills.length === 0
                     ? "Add skills in your profile first"
@@ -648,8 +646,8 @@ function GitHubIssuesFetcher() {
                 {loadingUserData
                   ? "Loading..."
                   : userSkills.length === 0
-                  ? "Add Skills"
-                  : "Match My Skills"}
+                    ? "Add Skills"
+                    : "Match My Skills"}
               </button>
             </div>
           </div>
@@ -697,9 +695,8 @@ function GitHubIssuesFetcher() {
             <div className="flex items-center space-x-2">
               <button
                 onClick={() => setIsGridView(false)}
-                className={`p-2 rounded ${
-                  !isGridView ? "bg-blue-100 text-blue-700" : "text-gray-500"
-                }`}
+                className={`p-2 rounded ${!isGridView ? "bg-blue-100 text-blue-700" : "text-gray-500"
+                  }`}
                 title="List view"
               >
                 <svg
@@ -717,9 +714,8 @@ function GitHubIssuesFetcher() {
               </button>
               <button
                 onClick={() => setIsGridView(true)}
-                className={`p-2 rounded ${
-                  isGridView ? "bg-blue-100 text-blue-700" : "text-gray-500"
-                }`}
+                className={`p-2 rounded ${isGridView ? "bg-blue-100 text-blue-700" : "text-gray-500"
+                  }`}
                 title="Grid view"
               >
                 <svg
@@ -746,11 +742,10 @@ function GitHubIssuesFetcher() {
                   <div className="flex flex-wrap gap-2">
                     <button
                       onClick={() => setAdditionalLabels([])}
-                      className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        additionalLabels.length === 0
+                      className={`px-3 py-1 rounded-full text-xs font-medium ${additionalLabels.length === 0
                           ? "bg-blue-100 text-blue-800"
                           : "bg-gray-100 text-gray-800"
-                      }`}
+                        }`}
                     >
                       <FaTag className="inline mr-1" />
                       All
@@ -766,11 +761,10 @@ function GitHubIssuesFetcher() {
                       <button
                         key={label}
                         onClick={() => toggleLabel(label)}
-                        className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          additionalLabels.includes(label)
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${additionalLabels.includes(label)
                             ? "bg-blue-100 text-blue-800"
                             : "bg-gray-100 text-gray-800"
-                        }`}
+                          }`}
                       >
                         <FaTag className="inline mr-1" />
                         {label}
@@ -949,11 +943,10 @@ function GitHubIssuesFetcher() {
                     {!summaries[issue.id] && !loadingSummaries[issue.id] && (
                       <button
                         onClick={() => handleGenerateSummary(issue)}
-                        className={`inline-flex items-center text-sm ${
-                          loadingSummaries[issue.id]
+                        className={`inline-flex items-center text-sm ${loadingSummaries[issue.id]
                             ? "text-gray-400 cursor-wait"
                             : "text-purple-600 hover:text-purple-800"
-                        }`}
+                          }`}
                         disabled={loadingSummaries[issue.id]}
                       >
                         {loadingSummaries[issue.id] ? (
@@ -1001,11 +994,10 @@ function GitHubIssuesFetcher() {
 
                       <button
                         onClick={() => handleSaveIssue(issue)}
-                        className={`inline-flex items-center text-sm ${
-                          isBookmarked(issue.id)
+                        className={`inline-flex items-center text-sm ${isBookmarked(issue.id)
                             ? "text-yellow-600 hover:text-yellow-700"
                             : "text-gray-600 hover:text-gray-800"
-                        }`}
+                          }`}
                         title={
                           isBookmarked(issue.id)
                             ? "Remove from bookmarks"
@@ -1028,19 +1020,18 @@ function GitHubIssuesFetcher() {
                     <button
                       onClick={() => handleStartContributing(issue)}
                       disabled={isContributing(issue.id) || contributingIssueId === issue.id}
-                      className={`inline-flex items-center text-sm ${
-                        isContributing(issue.id)
+                      className={`inline-flex items-center text-sm ${isContributing(issue.id)
                           ? "text-green-600 cursor-not-allowed"
                           : contributingIssueId === issue.id
-                          ? "text-gray-400 cursor-wait"
-                          : "text-green-600 hover:text-green-800"
-                      }`}
+                            ? "text-gray-400 cursor-wait"
+                            : "text-green-600 hover:text-green-800"
+                        }`}
                       title={
                         isContributing(issue.id)
                           ? "Already in your contributions"
                           : contributingIssueId === issue.id
-                          ? "Adding to contributions..."
-                          : "Start contributing to this issue"
+                            ? "Adding to contributions..."
+                            : "Start contributing to this issue"
                       }
                     >
                       {isContributing(issue.id) ? (

@@ -53,16 +53,16 @@ export function UserProvider({ children }) {
 
   const updateUser = async (newUserData, imageFile = null) => {
     if (!currentUser) return;
-    
+
     try {
       setLoading(true);
       setError(null);
-      
+
       const updatedUser = await updateUserProfile({
         uid: currentUser.uid,
         ...newUserData
       }, imageFile);
-      
+
       setUserData(updatedUser);
       return updatedUser;
     } catch (err) {

@@ -12,6 +12,7 @@ import { ToastProvider } from "./contexts/ToastContext";
 import Home from "./components/Home";
 import LoginPopup from "./components/LoginPopup";
 import Register from "./components/Register";
+import LoginPage from "./pages/LoginPage";
 import DashboardLayout from "./components/DashboardLayout";
 import Dashboard from "./components/Dashboard";
 import NetworkStatus from "./components/NetworkStatus";
@@ -41,6 +42,7 @@ import Forum from "./pages/Forum";
 import AskQuestion from "./pages/AskQuestion";
 import ThreadDetail from "./pages/ThreadDetail";
 import Footer from './components/Footer';
+import DemoBanner from './components/DemoBanner';
 
 // Lazy-loaded components to improve initial loading performance
 const Projects = lazy(() => import("./components/Projects"));
@@ -76,6 +78,8 @@ function App() {
               <ChatProvider>
                 <Router>
                   <NetworkStatus />
+                  {/* Demo mode banner */}
+                  <DemoBanner />
                   {/* Toast component for notifications */}
                   <Toast />
                   {/* Analytics Logger - auto-logging disabled for now until server is set up */}
@@ -84,7 +88,7 @@ function App() {
                     <Routes>
                       {/* Public routes */}
                       <Route path="/" element={<Home />} />
-                      <Route path="/login" element={<LoginPopup />} />
+                      <Route path="/login" element={<LoginPage />} />
                       <Route path="/register" element={<Register />} />
                       <Route path="/model-test" element={<ModelTest />} />
                       <Route path="/analytics-direct" element={<AnalyticsDashboard />} />
@@ -92,7 +96,7 @@ function App() {
                       <Route path="/test-chart-public" element={<TestChart />} />
                       <Route path="/simple-dashboard-public" element={<SimpleDashboard />} />
                       <Route path="/theme-demo" element={<ThemeDemo />} />
-                      
+
                       {/* New public information pages */}
                       <Route path="/about" element={<About />} />
                       <Route path="/privacy" element={<Privacy />} />
@@ -182,21 +186,21 @@ function App() {
                               </Suspense>
                             }
                           />
-                          <Route 
-                            path="/analytics" 
+                          <Route
+                            path="/analytics"
                             element={
                               <ProtectedRoute>
                                 <Analytics />
                               </ProtectedRoute>
-                            } 
+                            }
                           />
-                          <Route 
-                            path="/sheets-dashboard" 
+                          <Route
+                            path="/sheets-dashboard"
                             element={
                               <ProtectedRoute>
                                 <AnalyticsDashboard />
                               </ProtectedRoute>
-                            } 
+                            }
                           />
                           <Route
                             path="/user-analytics"
@@ -295,7 +299,7 @@ function App() {
 
                   {/* Global Mobile Navbar - visible on all pages */}
                   <MobileNavbar />
-                  
+
                   {/* Chatbot component */}
                   <GeminiChatbot />
                 </Router>

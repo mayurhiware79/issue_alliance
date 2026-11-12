@@ -80,7 +80,7 @@ export const useTheme = () => {
 
 // Theme provider component
 export const ThemeProvider = ({ children }) => {
-  const [currentTheme, setCurrentTheme] = useState(THEMES.DARK);
+  const [currentTheme, setCurrentTheme] = useState(THEMES.LIGHT);
   const [themeLoaded, setThemeLoaded] = useState(false);
   const [useSystemTheme, setUseSystemTheme] = useState(false);
   const { currentUser } = useAuth();
@@ -96,14 +96,14 @@ export const ThemeProvider = ({ children }) => {
   // Watch for system theme changes
   useEffect(() => {
     if (!useSystemTheme) return;
-    
+
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = () => {
       setCurrentTheme(getSystemTheme());
     };
-    
+
     mediaQuery.addEventListener('change', handleChange);
-    
+
     return () => {
       mediaQuery.removeEventListener('change', handleChange);
     };
@@ -115,38 +115,38 @@ export const ThemeProvider = ({ children }) => {
       // First try from localStorage
       const localTheme = localStorage.getItem('theme');
       const localUseSystem = localStorage.getItem('useSystemTheme') === 'true';
-      
+
       // Set system theme preference
       setUseSystemTheme(localUseSystem);
-      
+
       // If using system theme, set the theme accordingly
       if (localUseSystem) {
         setCurrentTheme(getSystemTheme());
         setThemeLoaded(true);
         return;
       }
-      
+
       // If user is logged in, try to get from Firestore
       if (currentUser) {
         try {
           const settingsRef = doc(db, 'user_settings', currentUser.uid);
           const settingsDoc = await getDoc(settingsRef);
-          
+
           if (settingsDoc.exists()) {
             const data = settingsDoc.data();
-            
+
             // Check if useSystemTheme is set in Firestore
             if (data.useSystemTheme !== undefined) {
               setUseSystemTheme(data.useSystemTheme);
               localStorage.setItem('useSystemTheme', data.useSystemTheme.toString());
-              
+
               if (data.useSystemTheme) {
                 setCurrentTheme(getSystemTheme());
                 setThemeLoaded(true);
                 return;
               }
             }
-            
+
             // Check if theme is set in Firestore
             if (data.theme && Object.values(THEMES).includes(data.theme)) {
               setCurrentTheme(data.theme);
@@ -155,27 +155,27 @@ export const ThemeProvider = ({ children }) => {
               return;
             }
           }
-          
+
           // If no valid Firestore settings but localStorage has valid theme
           if (localTheme && Object.values(THEMES).includes(localTheme)) {
             setCurrentTheme(localTheme);
             // Save to Firestore
-            await setDoc(settingsRef, { 
+            await setDoc(settingsRef, {
               theme: localTheme,
               useSystemTheme: localUseSystem,
             }, { merge: true });
           } else {
-            // Default to dark theme if nothing found
-            setCurrentTheme(THEMES.DARK);
-            localStorage.setItem('theme', THEMES.DARK);
-            await setDoc(settingsRef, { 
-              theme: THEMES.DARK,
+            // Default to light theme if nothing found
+            setCurrentTheme(THEMES.LIGHT);
+            localStorage.setItem('theme', THEMES.LIGHT);
+            await setDoc(settingsRef, {
+              theme: THEMES.LIGHT,
               useSystemTheme: false,
             }, { merge: true });
           }
         } catch (error) {
           console.error('Error loading theme from Firestore:', error);
-          
+
           // Fallback to localStorage or default
           if (localTheme && Object.values(THEMES).includes(localTheme)) {
             setCurrentTheme(localTheme);
@@ -192,10 +192,10 @@ export const ThemeProvider = ({ children }) => {
           localStorage.setItem('theme', THEMES.DARK);
         }
       }
-      
+
       setThemeLoaded(true);
     };
-    
+
     loadTheme();
   }, [currentUser]);
 
@@ -205,21 +205,21 @@ export const ThemeProvider = ({ children }) => {
       console.error('Invalid theme:', theme);
       return;
     }
-    
+
     // If using system theme, disable it first
     if (useSystemTheme) {
       setUseSystemTheme(false);
       localStorage.setItem('useSystemTheme', 'false');
     }
-    
+
     setCurrentTheme(theme);
     localStorage.setItem('theme', theme);
-    
+
     // If user is logged in, save to Firestore
     if (currentUser) {
       try {
         const settingsRef = doc(db, 'user_settings', currentUser.uid);
-        await setDoc(settingsRef, { 
+        await setDoc(settingsRef, {
           theme,
           useSystemTheme: false,
         }, { merge: true });
@@ -232,21 +232,21 @@ export const ThemeProvider = ({ children }) => {
   // Toggle system theme preference
   const toggleSystemTheme = async (value) => {
     const useSystem = value !== undefined ? value : !useSystemTheme;
-    
+
     setUseSystemTheme(useSystem);
     localStorage.setItem('useSystemTheme', useSystem.toString());
-    
+
     if (useSystem) {
       // Apply system theme
       const systemTheme = getSystemTheme();
       setCurrentTheme(systemTheme);
     }
-    
+
     // If user is logged in, save to Firestore
     if (currentUser) {
       try {
         const settingsRef = doc(db, 'user_settings', currentUser.uid);
-        await setDoc(settingsRef, { 
+        await setDoc(settingsRef, {
           useSystemTheme: useSystem,
           // Save current theme to return to when disabling system theme
           theme: currentTheme,
@@ -260,13 +260,13 @@ export const ThemeProvider = ({ children }) => {
   // Apply theme to the document body
   useEffect(() => {
     if (!themeLoaded) return;
-    
+
     // Remove all theme classes
     document.body.classList.remove(...Object.values(THEMES));
-    
+
     // Add current theme class
     document.body.classList.add(currentTheme);
-    
+
     // Update meta theme color for mobile browsers
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {

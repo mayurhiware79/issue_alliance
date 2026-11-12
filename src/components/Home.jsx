@@ -7,7 +7,9 @@ import LoginPopup from './LoginPopup';
 import { getTimeBasedGreeting, getRandomEngagementMessage } from '../utils/greetingMessages';
 import GlobalThemeToggle from './GlobalThemeToggle';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../contexts/AuthContext';
 import Footer from './Footer';
+import { FaFlask } from 'react-icons/fa';
 
 const Home = () => {
   const [showLoginPopup, setShowLoginPopup] = useState(false);
@@ -18,6 +20,7 @@ const Home = () => {
   const [tomMessage, setTomMessage] = useState('Welcome to IssueAlliance! Ready to find your perfect open source match?');
   const [showTom, setShowTom] = useState(false);
   const { currentTheme } = useTheme();
+  const { loginAsDemo, currentUser: authUser } = useAuth();
   const darkMode = currentTheme !== 'light';
   const navigate = useNavigate();
   const controls = useAnimation();
@@ -45,7 +48,7 @@ const Home = () => {
   };
 
   const neonText = {
-    textShadow: darkMode 
+    textShadow: darkMode
       ? '0 0 5px #3b82f6, 0 0 10px #3b82f6, 0 0 15px #3b82f6, 0 0 20px #3b82f6'
       : 'none'
   };
@@ -72,10 +75,10 @@ const Home = () => {
     };
 
     window.addEventListener('scroll', handleScroll);
-    
+
     // Update greeting and message
     updateGreetingAndMessage();
-    
+
     // Check for user authentication status
     const checkAuthStatus = () => {
       const user = localStorage.getItem('user');
@@ -83,7 +86,7 @@ const Home = () => {
         setCurrentUser(JSON.parse(user));
       }
     };
-    
+
     checkAuthStatus();
 
     // Rotate Tom messages
@@ -103,7 +106,7 @@ const Home = () => {
       // Only show Tom if user is scrolling or hasn't seen him in a while
       const shouldShow = Math.random() > 0.7;
       setShowTom(shouldShow);
-      
+
       // Hide Tom after 8-15 seconds
       if (shouldShow) {
         const hideDelay = 8000 + Math.random() * 7000;
@@ -125,11 +128,11 @@ const Home = () => {
 
   const getUserFirstName = () => {
     if (!currentUser) return '';
-    
+
     if (currentUser.displayName || currentUser.name) {
       return (currentUser.displayName || currentUser.name).split(' ')[0];
     }
-    
+
     return currentUser.email?.split('@')[0] || '';
   };
 
@@ -139,6 +142,11 @@ const Home = () => {
     } else {
       setShowLoginPopup(true);
     }
+  };
+
+  const handleDemoClick = () => {
+    loginAsDemo();
+    navigate('/dashboard');
   };
 
   const handleTomClick = () => {
@@ -201,26 +209,26 @@ const Home = () => {
       </div>
 
       {/* Navbar */}
-      <motion.nav 
+      <motion.nav
         className={`fixed w-full z-30 transition-all duration-300 ${scrolled ? (darkMode ? 'bg-gray-800 shadow-md py-2' : 'bg-white shadow-md py-2') : 'bg-transparent py-4'}`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
       >
-      
-          <div className='container mx-auto px-6 flex justify-between items-center'>
-          <motion.div 
+
+        <div className='container mx-auto px-6 flex justify-between items-center'>
+          <motion.div
             className="flex items-center space-x-2"
             whileHover={{ scale: 1.05 }}
           >
             <Github className={`h-8 w-8 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`} />
             <span className={`font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'} text-xl`}>IssueAlliance</span>
           </motion.div>
-          
+
           <div className="flex items-center space-x-4">
             {/* Global Theme Toggle */}
             <GlobalThemeToggle className={`${darkMode ? 'bg-blue-900 text-yellow-300' : 'bg-gray-200 text-gray-700'}`} />
-            
+
             {currentUser ? (
               <div className="flex items-center space-x-4">
                 <div className="flex hidden md:flex md:flex-col flex-col items-start">
@@ -228,11 +236,11 @@ const Home = () => {
                   <span className={`text-sm ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>{engagementMessage}</span>
                 </div>
                 <Link to="/dashboard">
-                <GlowButton
-                  className={`${darkMode ? 'bg-blue-700 hover:bg-blue-600 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'} px-4 py-2 rounded-lg transition-all`}
-                >
-                  Dashboard
-                </GlowButton>
+                  <GlowButton
+                    className={`${darkMode ? 'bg-blue-700 hover:bg-blue-600 text-white' : 'bg-blue-600 hover:bg-blue-700 text-white'} px-4 py-2 rounded-lg transition-all`}
+                  >
+                    Dashboard
+                  </GlowButton>
                 </Link>
               </div>
             ) : (
@@ -249,110 +257,122 @@ const Home = () => {
               </div>
             )}
           </div>
-       
-        
-          </div>
-      
+
+
+        </div>
+
       </motion.nav>
 
       {/* Hero Section */}
-      
-      <section 
+
+      <section
         className={`relative min-h-screen flex items-center justify-center overflow-hidden ${darkMode ? 'bg-gradient-to-br from-gray-900 via-blue-900 to-indigo-900' : 'bg-gradient-to-br from-gray-100 via-blue-100 to-indigo-100'}`}
         ref={heroRef}
       >
-         <div className="flex flex-col justify-center items-center mb-4 ">
-        <div className="flex md:hidden mb-4 border-2 border-blue-500 px-4 py-2 rounded-lg flex flex-col items-start">
-                  <span className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>{greeting}, {getUserFirstName()}!</span>
-                  <span className={`text-sm ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>{engagementMessage}</span>
-                </div>
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute inset-0" style={{ 
-            backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
-            backgroundSize: '30px 30px'
-          }}></div>
-        </div>
-       
-        
+        <div className="flex flex-col justify-center items-center mb-4 ">
+          <div className="flex md:hidden mb-4 border-2 border-blue-500 px-4 py-2 rounded-lg flex flex-col items-start">
+            <span className={`font-medium ${darkMode ? 'text-white' : 'text-gray-900'}`}>{greeting}, {getUserFirstName()}!</span>
+            <span className={`text-sm ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>{engagementMessage}</span>
+          </div>
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute inset-0" style={{
+              backgroundImage: "url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.2'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')",
+              backgroundSize: '30px 30px'
+            }}></div>
+          </div>
 
-        <div className="container mx-auto px-6 relative z-10 text-center">
-          
-          <motion.div 
-            className="max-w-3xl mx-auto transform transition-all duration-700"
-            initial={{ opacity: 0, y: 50 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8 }}
-          >
-            <motion.h1 
-              className={`text-4xl md:text-6xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'} leading-tight`}
-              whileHover={darkMode ? neonText : {}}
-              transition={{ duration: 0.3 }}
+
+
+          <div className="container mx-auto px-6 relative z-10 text-center">
+
+            <motion.div
+              className="max-w-3xl mx-auto transform transition-all duration-700"
+              initial={{ opacity: 0, y: 50 }}
+              animate={heroInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8 }}
             >
-              Open Source Contribution Matchmaker
-            </motion.h1>
-            <motion.p 
-              className={`text-xl md:text-2xl ${darkMode ? 'text-blue-200' : 'text-blue-800'} mb-10`}
-              whileHover={{ scale: 1.02 }}
-            >
-              Match with the perfect GitHub issues using AI
-              <motion.span 
-                className="ml-2 inline-block"
-                animate={{ rotate: [0, 10, -10, 0] }}
-                transition={{ repeat: Infinity, duration: 2 }}
+              <motion.h1
+                className={`text-4xl md:text-6xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'} leading-tight`}
+                whileHover={darkMode ? neonText : {}}
+                transition={{ duration: 0.3 }}
               >
-                <Sparkles className={`${darkMode ? 'text-yellow-300' : 'text-yellow-500'} inline`} />
-              </motion.span>
-            </motion.p>
-            
-            {currentUser ? (
-              <Link to="/dashboard"><GlowButton
-              className={`${darkMode ? 'bg-blue-700 hover:bg-blue-600' : 'bg-blue-600 hover:bg-blue-700'} text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:shadow-lg`}
-            >
-             Go to Dashboard
-            </GlowButton></Link>
-            ) : (
-              <div className="flex justify-center space-x-4">
-                <GlowButton
-                  onClick={() => setShowLoginPopup(true)}
+                Open Source Contribution Matchmaker
+              </motion.h1>
+              <motion.p
+                className={`text-xl md:text-2xl ${darkMode ? 'text-blue-200' : 'text-blue-800'} mb-10`}
+                whileHover={{ scale: 1.02 }}
+              >
+                Match with the perfect GitHub issues using AI
+                <motion.span
+                  className="ml-2 inline-block"
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ repeat: Infinity, duration: 2 }}
+                >
+                  <Sparkles className={`${darkMode ? 'text-yellow-300' : 'text-yellow-500'} inline`} />
+                </motion.span>
+              </motion.p>
+
+              {currentUser ? (
+                <Link to="/dashboard"><GlowButton
                   className={`${darkMode ? 'bg-blue-700 hover:bg-blue-600' : 'bg-blue-600 hover:bg-blue-700'} text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:shadow-lg`}
                 >
-                  Sign In
-                </GlowButton>
-                <GlowButton
-                  className={`${darkMode ? 'bg-gray-800 hover:bg-gray-700 text-blue-400 border-blue-500' : 'bg-white hover:bg-gray-100 text-blue-600 border-blue-600'} border-2 px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:shadow-lg`}
-                >
-                  <Link to="/register">Register</Link>
-                </GlowButton>
-              </div>
-            )}
-          </motion.div>
+                  Go to Dashboard
+                </GlowButton></Link>
+              ) : (
+                <div className="flex flex-col items-center gap-4">
+                  <div className="flex justify-center space-x-4">
+                    <GlowButton
+                      onClick={() => setShowLoginPopup(true)}
+                      className={`${darkMode ? 'bg-blue-700 hover:bg-blue-600' : 'bg-blue-600 hover:bg-blue-700'} text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:shadow-lg`}
+                    >
+                      Sign In
+                    </GlowButton>
+                    <GlowButton
+                      className={`${darkMode ? 'bg-gray-800 hover:bg-gray-700 text-blue-400 border-blue-500' : 'bg-white hover:bg-gray-100 text-blue-600 border-blue-600'} border-2 px-8 py-4 rounded-xl font-semibold text-lg transition-all hover:shadow-lg`}
+                    >
+                      <Link to="/register">Register</Link>
+                    </GlowButton>
+                  </div>
+                  {/* Demo button — prominent, no account needed */}
+                  <motion.button
+                    onClick={handleDemoClick}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white px-8 py-3 rounded-xl font-semibold text-base transition-all shadow-lg hover:shadow-xl"
+                  >
+                    <FaFlask />
+                    Try Demo — No Sign-up Needed
+                  </motion.button>
+                </div>
+              )}
+            </motion.div>
 
-          <motion.div 
-            className="mt-16"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
-          >
-            <Link to="/personalized-issues"><GlowButton
-              onClick={handleFindMatch}
-              className={`group inline-flex items-center ${darkMode ? 'bg-blue-900 text-blue-200' : 'bg-white text-blue-800'} px-8 py-4 rounded-full font-semibold text-lg shadow-lg transition-all hover:shadow-xl`}
+            <motion.div
+              className="mt-16"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
             >
-              Find My Match
-              <motion.span 
-                className="ml-2"
-                animate={{
-                  x: [0, 5, 0],
-                }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 2
-                }}
+              <Link to="/personalized-issues"><GlowButton
+                onClick={handleFindMatch}
+                className={`group inline-flex items-center ${darkMode ? 'bg-blue-900 text-blue-200' : 'bg-white text-blue-800'} px-8 py-4 rounded-full font-semibold text-lg shadow-lg transition-all hover:shadow-xl`}
               >
-                <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-              </motion.span>
-            </GlowButton></Link>
-          </motion.div>
-        </div>
+                Find My Match
+                <motion.span
+                  className="ml-2"
+                  animate={{
+                    x: [0, 5, 0],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 2
+                  }}
+                >
+                  <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+                </motion.span>
+              </GlowButton></Link>
+            </motion.div>
+          </div>
         </div>
 
         {/* GitHub Tom Character */}
@@ -361,8 +381,8 @@ const Home = () => {
             <motion.div
               className="fixed bottom-6 right-6 z-50 cursor-pointer"
               initial={{ x: 100, opacity: 0 }}
-              animate={{ 
-                x: 0, 
+              animate={{
+                x: 0,
                 opacity: 1,
                 ...(darkMode ? neonText : {})
               }}
@@ -387,9 +407,9 @@ const Home = () => {
         {/* Wave divider */}
         <div className="absolute bottom-0 left-0 w-full">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" className="w-full">
-            <path 
-              fill={darkMode ? "#111827" : "#f9fafb"} 
-              fillOpacity="1" 
+            <path
+              fill={darkMode ? "#111827" : "#f9fafb"}
+              fillOpacity="1"
               d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,208C672,213,768,203,864,181.3C960,160,1056,128,1152,128C1248,128,1344,160,1392,176L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
             ></path>
           </svg>
@@ -397,12 +417,12 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section 
+      <section
         className={`py-20 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'} relative overflow-hidden`}
         ref={featuresRef}
       >
         {/* Animated floating elements */}
-        <motion.div 
+        <motion.div
           className={`absolute top-1/4 left-1/4 w-16 h-16 ${darkMode ? 'bg-blue-900' : 'bg-blue-100'} rounded-full opacity-20`}
           animate={{
             y: [0, -20, 0],
@@ -414,7 +434,7 @@ const Home = () => {
             repeatType: 'reverse'
           }}
         />
-        <motion.div 
+        <motion.div
           className={`absolute top-1/3 right-1/4 w-24 h-24 ${darkMode ? 'bg-purple-900' : 'bg-purple-100'} rounded-full opacity-20`}
           animate={{
             y: [0, 30, 0],
@@ -426,9 +446,9 @@ const Home = () => {
             repeatType: 'reverse'
           }}
         />
-        
+
         <div className="container mx-auto px-6 relative z-10">
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             animate={featuresInView ? { opacity: 1, y: 0 } : {}}
@@ -440,14 +460,14 @@ const Home = () => {
             </p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="grid md:grid-cols-3 gap-8"
             variants={containerVariants}
             initial="hidden"
             animate={controls}
           >
             {/* Feature 1 */}
-            <motion.div 
+            <motion.div
               className={`${darkMode ? 'bg-gray-800 hover:shadow-blue-900/40' : 'bg-white hover:shadow-blue-500/40'} rounded-xl p-8 shadow-lg transition-all hover:shadow-xl hover:transform hover:-translate-y-1 relative overflow-hidden`}
               variants={itemVariants}
               whileHover={{
@@ -465,7 +485,7 @@ const Home = () => {
             </motion.div>
 
             {/* Feature 2 */}
-            <motion.div 
+            <motion.div
               className={`${darkMode ? 'bg-gray-800 hover:shadow-green-900/40' : 'bg-white hover:shadow-green-500/40'} rounded-xl p-8 shadow-lg transition-all hover:shadow-xl hover:transform hover:-translate-y-1 relative overflow-hidden`}
               variants={itemVariants}
               whileHover={{
@@ -483,7 +503,7 @@ const Home = () => {
             </motion.div>
 
             {/* Feature 3 */}
-            <motion.div 
+            <motion.div
               className={`${darkMode ? 'bg-gray-800 hover:shadow-purple-900/40' : 'bg-white hover:shadow-purple-500/40'} rounded-xl p-8 shadow-lg transition-all hover:shadow-xl hover:transform hover:-translate-y-1 relative overflow-hidden`}
               variants={itemVariants}
               whileHover={{
@@ -506,7 +526,7 @@ const Home = () => {
       {/* Stats Section */}
       <section className={`py-16 ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
         <div className="container mx-auto px-6">
-          <motion.div 
+          <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -519,19 +539,19 @@ const Home = () => {
               { number: "1K+", label: "Projects" },
               { number: "24/7", label: "Active Matching" }
             ].map((stat, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
                 className={`p-6 rounded-xl ${darkMode ? 'bg-gray-700 hover:shadow-blue-500/20' : 'bg-gray-50 hover:shadow-lg'}`}
-                whileHover={{ 
+                whileHover={{
                   y: -5,
                   boxShadow: darkMode ? '0 10px 20px rgba(59, 130, 246, 0.2)' : '0 10px 20px rgba(0,0,0,0.1)'
                 }}
               >
-                <motion.p 
+                <motion.p
                   className={`text-4xl font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'} mb-2`}
                   initial={{ scale: 0.9 }}
                   whileInView={{ scale: 1 }}
-                  transition={{ 
+                  transition={{
                     duration: 0.5,
                     delay: index * 0.1
                   }}
@@ -548,7 +568,7 @@ const Home = () => {
       {/* Testimonials Section */}
       <section className={`py-20 ${darkMode ? 'bg-gray-900' : 'bg-gray-50'}`}>
         <div className="container mx-auto px-6">
-          <motion.h2 
+          <motion.h2
             className={`text-3xl font-bold text-center mb-12 ${darkMode ? 'text-white' : 'text-gray-900'}`}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -557,7 +577,7 @@ const Home = () => {
           >
             What Developers Say
           </motion.h2>
-          
+
           <div className="grid md:grid-cols-4 gap-8">
             {[
               {
@@ -582,7 +602,7 @@ const Home = () => {
                 className={`p-8 rounded-xl shadow-md ${darkMode ? 'bg-gray-800 hover:shadow-blue-500/20' : 'bg-white hover:shadow-lg'}`}
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ 
+                transition={{
                   duration: 0.5,
                   delay: index * 0.2
                 }}
@@ -605,7 +625,7 @@ const Home = () => {
       {/* CTA Section */}
       <section className={`py-20 ${darkMode ? 'bg-gradient-to-r from-blue-900 to-indigo-900' : 'bg-gradient-to-r from-blue-600 to-indigo-700'} text-white relative overflow-hidden`}>
         {/* Animated floating elements */}
-        <motion.div 
+        <motion.div
           className="absolute top-1/4 left-1/4 w-32 h-32 bg-white rounded-full opacity-10"
           animate={{
             y: [0, -40, 0],
@@ -617,9 +637,9 @@ const Home = () => {
             repeatType: 'reverse'
           }}
         />
-        
+
         <div className="container mx-auto px-6 text-center relative z-10">
-          <motion.h2 
+          <motion.h2
             className="text-3xl md:text-4xl font-bold mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -628,7 +648,7 @@ const Home = () => {
           >
             Ready to find your perfect open source match?
           </motion.h2>
-          <motion.p 
+          <motion.p
             className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -637,7 +657,7 @@ const Home = () => {
           >
             Join thousands of developers who are contributing to meaningful projects that match their skills.
           </motion.p>
-          
+
           <GlowButton
             onClick={handleFindMatch}
             className={`${darkMode ? 'bg-blue-800 hover:bg-blue-700' : 'bg-white hover:bg-blue-50'} ${darkMode ? 'text-blue-100' : 'text-blue-600'} px-8 py-4 rounded-xl font-semibold text-lg shadow-lg transition-all transform hover:scale-105`}

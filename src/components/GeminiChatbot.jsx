@@ -15,10 +15,10 @@ const AnimatedChatbotIcon = ({ isDarkMode }) => {
       <div className={`absolute h-full w-full rounded-full flex items-center justify-center ${isDarkMode ? 'bg-slate-700 text-teal-400' : 'bg-teal-600 text-white'}`}>
         <TfiGithub className="text-xl" />
       </div>
-      
+
       {/* Water Drop Waves */}
       {[0, 1, 2].map((i) => (
-        <div 
+        <div
           key={i}
           className={`absolute h-full w-full rounded-full border-2 ${isDarkMode ? 'border-teal-400' : 'border-white'} opacity-0`}
           style={{
@@ -27,7 +27,7 @@ const AnimatedChatbotIcon = ({ isDarkMode }) => {
           }}
         />
       ))}
-      
+
       {/* CSS for the animation */}
       <style>{`
         @keyframes wave {
@@ -55,7 +55,7 @@ const GeminiChatbot = () => {
   // Theme context
   const { currentTheme } = useTheme();
   const isDarkMode = currentTheme === THEMES.DARK || currentTheme === THEMES.BLUE || currentTheme === THEMES.GREEN || currentTheme === THEMES.PURPLE;
-  
+
   // Add a global style for webkit scrollbar
   useEffect(() => {
     const style = document.createElement('style');
@@ -65,12 +65,12 @@ const GeminiChatbot = () => {
       }
     `;
     document.head.appendChild(style);
-    
+
     return () => {
       document.head.removeChild(style);
     };
   }, []);
-  
+
   // State management
   const [inputValue, setInputValue] = useState('');
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -79,17 +79,17 @@ const GeminiChatbot = () => {
   const [isListening, setIsListening] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
   const [isBotTyping, setIsBotTyping] = useState(false);
-  
+
   // Refs
   const recognitionRef = useRef(null);
   const chatContainerRef = useRef(null);
   const inputRef = useRef(null);
 
   // Chat context
-  const { 
-    messages, 
-    isLoading, 
-    sendMessage, 
+  const {
+    messages,
+    isLoading,
+    sendMessage,
     clearMessages,
     isChatVisible,
     toggleChatVisibility,
@@ -155,13 +155,15 @@ const GeminiChatbot = () => {
           question: "How do I find issues that match my skills?",
           response: [
             { type: 'text', content: "Finding issues that match your skills is simple:", style: 'font-normal' },
-            { type: 'list', items: [
-              "Complete your profile with skills and interests",
-              "Connect your GitHub account for better matching",
-              "Visit the 'Personalized Issues' section",
-              "Browse the AI-recommended issues tailored to your profile",
-              "Use filters to refine by language, difficulty, or project type"
-            ]},
+            {
+              type: 'list', items: [
+                "Complete your profile with skills and interests",
+                "Connect your GitHub account for better matching",
+                "Visit the 'Personalized Issues' section",
+                "Browse the AI-recommended issues tailored to your profile",
+                "Use filters to refine by language, difficulty, or project type"
+              ]
+            },
             { type: 'text', content: "Our AI analyzes issue descriptions and your profile to find the best matches!" }
           ]
         },
@@ -169,13 +171,15 @@ const GeminiChatbot = () => {
           question: "What is IssueAlliance?",
           response: [
             { type: 'text', content: "**IssueAlliance** is an open-source contribution matchmaker that:", style: 'font-medium' },
-            { type: 'list', items: [
-              "Connects developers with GitHub issues that match their skills",
-              "Uses AI to analyze and recommend suitable open-source projects",
-              "Helps maintainers find qualified contributors",
-              "Provides analytics on contribution patterns and skill development",
-              "Makes open-source contribution more accessible for developers of all levels"
-            ]},
+            {
+              type: 'list', items: [
+                "Connects developers with GitHub issues that match their skills",
+                "Uses AI to analyze and recommend suitable open-source projects",
+                "Helps maintainers find qualified contributors",
+                "Provides analytics on contribution patterns and skill development",
+                "Makes open-source contribution more accessible for developers of all levels"
+              ]
+            },
             { type: 'text', content: "Our mission is to strengthen the open-source ecosystem by creating meaningful connections between projects and contributors." }
           ]
         }
@@ -188,13 +192,15 @@ const GeminiChatbot = () => {
           question: "How does the matching algorithm work?",
           response: [
             { type: 'text', content: "Our matching algorithm uses **Vertex AI** to analyze several factors:", style: 'font-normal' },
-            { type: 'list', items: [
-              "Your GitHub contribution history",
-              "Languages and technologies you're proficient in",
-              "Issue difficulty level (beginner/intermediate/advanced)",
-              "Project popularity and activity",
-              "Your stated interests and preferences"
-            ]},
+            {
+              type: 'list', items: [
+                "Your GitHub contribution history",
+                "Languages and technologies you're proficient in",
+                "Issue difficulty level (beginner/intermediate/advanced)",
+                "Project popularity and activity",
+                "Your stated interests and preferences"
+              ]
+            },
             { type: 'text', content: "The system continuously learns from your interactions to improve recommendations." }
           ]
         },
@@ -202,12 +208,14 @@ const GeminiChatbot = () => {
           question: "How do I connect my GitHub account?",
           response: [
             { type: 'text', content: "To connect your GitHub account:", style: 'font-normal' },
-            { type: 'list', items: [
-              "Click the 'Connect GitHub' button in your dashboard",
-              "Authorize IssueAlliance to access your public data",
-              "Select the permissions you want to grant",
-              "Our system will then analyze your profile and contributions"
-            ]},
+            {
+              type: 'list', items: [
+                "Click the 'Connect GitHub' button in your dashboard",
+                "Authorize IssueAlliance to access your public data",
+                "Select the permissions you want to grant",
+                "Our system will then analyze your profile and contributions"
+              ]
+            },
             { type: 'text', content: "We only request read-only access to public repositories unless you choose to grant additional permissions." }
           ]
         }
@@ -220,13 +228,15 @@ const GeminiChatbot = () => {
           question: "Can I track my contributions?",
           response: [
             { type: 'text', content: "Yes! IssueAlliance offers comprehensive contribution tracking:", style: 'font-normal' },
-            { type: 'list', items: [
-              "View all your contributions across repositories",
-              "Track pull requests status (open, merged, closed)",
-              "See contribution statistics by project and language",
-              "Generate contribution reports for your portfolio",
-              "Earn badges and achievements based on contribution milestones"
-            ]},
+            {
+              type: 'list', items: [
+                "View all your contributions across repositories",
+                "Track pull requests status (open, merged, closed)",
+                "See contribution statistics by project and language",
+                "Generate contribution reports for your portfolio",
+                "Earn badges and achievements based on contribution milestones"
+              ]
+            },
             { type: 'text', content: "Visit the 'My Contributions' tab in your dashboard to access these features." }
           ]
         },
@@ -234,10 +244,12 @@ const GeminiChatbot = () => {
           question: "Is there a mobile app?",
           response: [
             { type: 'text', content: "Currently, IssueAlliance is available as:", style: 'font-normal' },
-            { type: 'list', items: [
-              "A responsive web application that works on mobile browsers",
-              "A Progressive Web App (PWA) that can be installed on your device"
-            ]},
+            {
+              type: 'list', items: [
+                "A responsive web application that works on mobile browsers",
+                "A Progressive Web App (PWA) that can be installed on your device"
+              ]
+            },
             { type: 'text', content: "We're developing native mobile apps for iOS and Android, planned for release next quarter. You can join the beta program by visiting your account settings." }
           ]
         }
@@ -259,16 +271,18 @@ const GeminiChatbot = () => {
           response: [
             { type: 'text', content: "**Making Your First Open Source Contribution**", style: 'font-bold text-lg' },
             { type: 'text', content: "Here's how to make your first contribution:", style: 'font-medium mt-2' },
-            { type: 'list', items: [
-              "Find a project that interests you",
-              "Read the contribution guidelines",
-              "Look for issues labeled 'good first issue' or 'beginner-friendly'",
-              "Fork the repository",
-              "Make your changes in a new branch",
-              "Test your changes",
-              "Submit a pull request with a clear description",
-              "Respond to any feedback from maintainers"
-            ]},
+            {
+              type: 'list', items: [
+                "Find a project that interests you",
+                "Read the contribution guidelines",
+                "Look for issues labeled 'good first issue' or 'beginner-friendly'",
+                "Fork the repository",
+                "Make your changes in a new branch",
+                "Test your changes",
+                "Submit a pull request with a clear description",
+                "Respond to any feedback from maintainers"
+              ]
+            },
             { type: 'text', content: "Remember, documentation improvements and bug reports are also valuable contributions!", style: 'font-normal mt-2 italic' }
           ]
         },
@@ -277,23 +291,25 @@ const GeminiChatbot = () => {
           response: [
             { type: 'text', content: "**Top Programming Languages for 2025**", style: 'font-bold text-lg' },
             { type: 'text', content: "Here are the most valuable languages to learn:", style: 'font-medium mt-2' },
-            { type: 'list', items: [
-              "**Python** - Versatile for AI, data science, web development, and automation",
-              "**JavaScript/TypeScript** - Essential for web development with React and Node.js",
-              "**Rust** - For systems programming with memory safety",
-              "**Go** - Efficient for backend services and cloud applications",
-              "**Kotlin** - For Android and cross-platform development"
-            ]},
+            {
+              type: 'list', items: [
+                "**Python** - Versatile for AI, data science, web development, and automation",
+                "**JavaScript/TypeScript** - Essential for web development with React and Node.js",
+                "**Rust** - For systems programming with memory safety",
+                "**Go** - Efficient for backend services and cloud applications",
+                "**Kotlin** - For Android and cross-platform development"
+              ]
+            },
             { type: 'text', content: "The best choice depends on your interests - web, mobile, AI, cloud, or systems programming all have different optimal languages.", style: 'font-normal mt-2' }
           ]
         }
       ]
     },
-    
+
   ];
-  
+
   // Flatten categorized suggestions for searching
-  const suggestedQuestions = categorizedSuggestions.flatMap(category => 
+  const suggestedQuestions = categorizedSuggestions.flatMap(category =>
     category.questions
   );
 
@@ -337,7 +353,7 @@ const GeminiChatbot = () => {
   // Format message content with styles
   const formatMessageContent = (content) => {
     if (typeof content === 'string') return content;
-    
+
     return content.map((item, index) => {
       if (item.type === 'text') {
         return (
@@ -357,6 +373,97 @@ const GeminiChatbot = () => {
       }
       return null;
     });
+  };
+
+  // Render plain markdown text from Gemini AI responses
+  const renderMarkdown = (text) => {
+    if (!text || typeof text !== 'string') return null;
+
+    // Try to detect accidental JSON responses and show a fallback
+    const trimmed = text.trim();
+    if (trimmed.startsWith('[') || trimmed.startsWith('{')) {
+      return <span>Sorry, I had a formatting issue. Please try again.</span>;
+    }
+
+    const lines = text.split('\n');
+    const elements = [];
+    let listBuffer = [];
+    let orderedBuffer = [];
+
+    const flushUnordered = (key) => {
+      if (listBuffer.length > 0) {
+        elements.push(
+          <ul key={`ul-${key}`} className="list-disc pl-5 my-1 space-y-0.5">
+            {listBuffer.map((li, i) => <li key={i} className="text-sm">{applyInline(li)}</li>)}
+          </ul>
+        );
+        listBuffer = [];
+      }
+    };
+
+    const flushOrdered = (key) => {
+      if (orderedBuffer.length > 0) {
+        elements.push(
+          <ol key={`ol-${key}`} className="list-decimal pl-5 my-1 space-y-0.5">
+            {orderedBuffer.map((li, i) => <li key={i} className="text-sm">{applyInline(li)}</li>)}
+          </ol>
+        );
+        orderedBuffer = [];
+      }
+    };
+
+    const applyInline = (str) => {
+      // Bold **text** or __text__
+      const parts = str.split(/(\*\*[^*]+\*\*|__[^_]+__)/g);
+      return parts.map((part, i) => {
+        if (/^\*\*[^*]+\*\*$/.test(part) || /^__[^_]+__$/.test(part)) {
+          const inner = part.replace(/^\*\*|\*\*$|^__|__$/g, '');
+          return <strong key={i}>{inner}</strong>;
+        }
+        // Italic *text* or _text_
+        if (/^\*[^*]+\*$/.test(part) || /^_[^_]+_$/.test(part)) {
+          const inner = part.replace(/^\*|\*$|^_|_$/g, '');
+          return <em key={i}>{inner}</em>;
+        }
+        return part;
+      });
+    };
+
+    lines.forEach((line, idx) => {
+      const unorderedMatch = line.match(/^[-*•]\s+(.*)/);
+      const orderedMatch = line.match(/^\d+\.\s+(.*)/);
+      const headingMatch = line.match(/^#{1,3}\s+(.*)/);
+      const isBlank = line.trim() === '';
+
+      if (unorderedMatch) {
+        flushOrdered(idx);
+        listBuffer.push(unorderedMatch[1]);
+      } else if (orderedMatch) {
+        flushUnordered(idx);
+        orderedBuffer.push(orderedMatch[1]);
+      } else {
+        flushUnordered(idx);
+        flushOrdered(idx);
+        if (isBlank) {
+          // skip extra blank lines but allow spacing via margins on paragraphs
+        } else if (headingMatch) {
+          elements.push(
+            <p key={idx} className={`font-semibold mt-2 mb-1 text-sm ${isDarkMode ? 'text-cyan-300' : 'text-indigo-700'}`}>
+              {applyInline(headingMatch[1])}
+            </p>
+          );
+        } else {
+          elements.push(
+            <p key={idx} className="text-sm mb-1">{applyInline(line)}</p>
+          );
+        }
+      }
+    });
+
+    flushUnordered('end');
+    flushOrdered('end');
+
+    return <div className="space-y-0.5">{elements}</div>;
   };
 
   // Toggle speech recognition
@@ -395,22 +502,22 @@ const GeminiChatbot = () => {
   // Send message with content parameter
   const handleSendMessageWithContent = async (content) => {
     const messageContent = content || inputValue.trim();
-    
+
     if (!messageContent) return;
-    
+
     const matchedQuestion = suggestedQuestions.find(
       q => q.question.toLowerCase() === messageContent.toLowerCase().trim()
     );
-    
+
     setIsBotTyping(true);
-    
+
     if (matchedQuestion) {
       await sendMessage(messageContent, matchedQuestion.response);
     } else {
       // For unmatched questions, let the AI generate a response
       await sendMessage(messageContent);
     }
-    
+
     setInputValue('');
     setShowSuggestions(false);
     setIsBotTyping(false);
@@ -437,16 +544,16 @@ const GeminiChatbot = () => {
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (!isChatVisible && !isFullscreen) return;
-      
+
       if (e.key === 'Escape' && isFullscreen) {
         setIsFullscreen(false);
       }
-      
+
       if (e.altKey && e.key === 'f' && !isFullscreen) {
         setIsFullscreen(true);
         e.preventDefault();
       }
-      
+
       if (e.key === 'Enter' && !e.shiftKey) {
         handleSendMessage();
         e.preventDefault();
@@ -498,11 +605,9 @@ const GeminiChatbot = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ duration: 0.3 }}
-            className={`fixed ${
-              isFullscreen ? 'inset-0' : 'bottom-36 md:bottom-20 right-6 w-96 h-[600px]'
-            } flex flex-col rounded-lg shadow-2xl overflow-hidden z-30 ${
-              isDarkMode ? 'bg-gray-800' : 'bg-white'
-            }`}
+            className={`fixed ${isFullscreen ? 'inset-0' : 'bottom-36 md:bottom-20 right-6 w-96 h-[600px]'
+              } flex flex-col rounded-lg shadow-2xl overflow-hidden z-30 ${isDarkMode ? 'bg-gray-800' : 'bg-white'
+              }`}
           >
             {/* Chat Header */}
             <div className={`p-3 flex justify-between items-center ${isDarkMode ? 'bg-gray-900' : 'bg-teal-600'}`}>
@@ -544,7 +649,7 @@ const GeminiChatbot = () => {
 
             {/* Chat History Panel */}
             {showChatHistory && (
-              <motion.div 
+              <motion.div
                 className={`absolute top-12 right-0 left-0 bottom-0 z-10 ${theme.sidebarBg} border-l ${theme.sidebarBorder} shadow-xl p-4 overflow-y-auto`}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -560,14 +665,14 @@ const GeminiChatbot = () => {
                     <FaTimes />
                   </button>
                 </div>
-                
+
                 <button
                   onClick={handleNewChat}
                   className={`w-full mb-4 flex items-center justify-center space-x-2 p-2 rounded-lg ${isDarkMode ? 'bg-cyan-600 hover:bg-cyan-700 text-white' : 'bg-indigo-500 hover:bg-indigo-600 text-white'} transition-colors`}
                 >
                   <span>New Chat</span>
                 </button>
-                
+
                 <div className="space-y-2">
                   {chatSessions.length === 0 ? (
                     <div className={`text-center py-4 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
@@ -578,11 +683,10 @@ const GeminiChatbot = () => {
                       <motion.div
                         key={session.id}
                         onClick={() => handleSelectSession(session.id)}
-                        className={`p-3 rounded-lg cursor-pointer border ${
-                          session.id === currentSessionId 
-                            ? (isDarkMode ? 'bg-gray-700 border-cyan-500' : 'bg-indigo-50 border-indigo-300') 
-                            : (isDarkMode ? 'border-gray-700 hover:bg-gray-700' : 'border-gray-200 hover:bg-gray-50')
-                        }`}
+                        className={`p-3 rounded-lg cursor-pointer border ${session.id === currentSessionId
+                          ? (isDarkMode ? 'bg-gray-700 border-cyan-500' : 'bg-indigo-50 border-indigo-300')
+                          : (isDarkMode ? 'border-gray-700 hover:bg-gray-700' : 'border-gray-200 hover:bg-gray-50')
+                          }`}
                         whileHover={{ scale: 1.01 }}
                         whileTap={{ scale: 0.99 }}
                       >
@@ -594,8 +698,8 @@ const GeminiChatbot = () => {
                             {session.messageCount || 0} message{session.messageCount !== 1 ? 's' : ''}
                           </span>
                           <span className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                            {session.lastUpdated 
-                              ? new Date(session.lastUpdated).toLocaleDateString() 
+                            {session.lastUpdated
+                              ? new Date(session.lastUpdated).toLocaleDateString()
                               : new Date(session.createdAt).toLocaleDateString()}
                           </span>
                         </div>
@@ -607,19 +711,19 @@ const GeminiChatbot = () => {
             )}
 
             {/* Message Container */}
-            <div 
+            <div
               ref={chatContainerRef}
-              className={`flex-1 overflow-y-auto p-4 hide-scrollbar`} 
+              className={`flex-1 overflow-y-auto p-4 hide-scrollbar`}
               style={scrollbarHideStyles}
             >
               {messages.length === 0 ? (
-                <motion.div 
+                <motion.div
                   className={`text-center ${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mt-10`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
                   <p>Hi there! I'm IssueAlliance AI. I can help with project-related questions or answer general programming and development questions. What would you like to know?</p>
-                  
+
                   {/* Multiple categories of recommendations */}
                   <div className="mt-6 space-y-6">
                     {categorizedSuggestions.map((category, categoryIndex) => (
@@ -652,60 +756,37 @@ const GeminiChatbot = () => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.2 }}
-                      className={`mb-4 ${
-                        message.sender === 'user' ? 'text-right' : 'text-left'
-                      }`}
+                      className={`mb-4 ${message.sender === 'user' ? 'text-right' : 'text-left'
+                        }`}
                     >
                       <motion.div
-                        className={`inline-block max-w-[80%] px-4 py-2 rounded-lg ${
-                          message.sender === 'user'
-                            ? theme.userBubble
-                            : theme.botBubble
-                        }`}
+                        className={`inline-block max-w-[80%] px-4 py-2 rounded-lg ${message.sender === 'user'
+                          ? theme.userBubble
+                          : theme.botBubble
+                          }`}
                         whileHover={{ scale: 1.01 }}
                       >
-                        <div className="whitespace-pre-wrap break-words text-sm">
+                        <div className="break-words text-sm">
                           {message.sender === 'bot' && message.isFormatted ? (
                             // For formatted messages (from predefined responses)
                             formatMessageContent(message.text)
-                          ) : message.sender === 'bot' && typeof message.text === 'string' && message.text.includes('1)') ? (
-                            // Special handling for plain text responses with numbered lists
-                            <div>
-                              {/* Extract title and format as heading */}
-                              {message.text.split(':')[0] && (
-                                <h3 className={`font-bold text-md mb-2 ${isDarkMode ? 'text-cyan-300' : 'text-indigo-600'}`}>
-                                  {message.text.split(':')[0]}
-                                </h3>
-                              )}
-                              
-                              {/* Format the rest of the content */}
-                              <div>
-                                {message.text.split(':').slice(1).join(':').split(/(\d\))/).map((part, i) => {
-                                  if (part.match(/^\d\)$/)) {
-                                    // This is a number marker
-                                    return <span key={i} className="font-semibold">{part}</span>;
-                                  } else if (part.trim()) {
-                                    // This is content
-                                    return <span key={i}>{part}</span>;
-                                  }
-                                  return null;
-                                })}
-                              </div>
-                            </div>
+                          ) : message.sender === 'bot' ? (
+                            // All AI-generated responses rendered with markdown support
+                            renderMarkdown(message.text)
                           ) : (
-                            // Regular text message
-                            message.text
+                            // User messages — plain text
+                            <span className="whitespace-pre-wrap">{message.text}</span>
                           )}
                         </div>
-                        <motion.span 
+                        <motion.span
                           className="text-xs opacity-70 block mt-1"
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 0.7 }}
                           transition={{ delay: 0.3 }}
                         >
-                          {message.timestamp.toLocaleTimeString([], { 
-                            hour: '2-digit', 
-                            minute: '2-digit' 
+                          {message.timestamp.toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit'
                           })}
                         </motion.span>
                       </motion.div>
@@ -713,26 +794,26 @@ const GeminiChatbot = () => {
                   ))}
                 </AnimatePresence>
               )}
-              
+
               {(isLoading || isBotTyping) && (
-                <motion.div 
+                <motion.div
                   className="text-left mb-4"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                 >
                   <div className={`inline-block max-w-[80%] px-4 py-2 rounded-lg ${isDarkMode ? 'bg-gray-800 text-cyan-200' : 'bg-white text-indigo-500 border border-gray-200'} rounded-tl-none`}>
                     <div className="flex space-x-1">
-                      <motion.div 
+                      <motion.div
                         className={`h-2 w-2 ${isDarkMode ? 'bg-cyan-400' : 'bg-indigo-400'} rounded-full`}
                         animate={{ y: [0, -5, 0] }}
                         transition={{ repeat: Infinity, duration: 1, repeatDelay: 0.2 }}
                       />
-                      <motion.div 
+                      <motion.div
                         className={`h-2 w-2 ${isDarkMode ? 'bg-cyan-400' : 'bg-indigo-400'} rounded-full`}
                         animate={{ y: [0, -5, 0] }}
                         transition={{ repeat: Infinity, duration: 1, delay: 0.2, repeatDelay: 0.2 }}
                       />
-                      <motion.div 
+                      <motion.div
                         className={`h-2 w-2 ${isDarkMode ? 'bg-cyan-400' : 'bg-indigo-400'} rounded-full`}
                         animate={{ y: [0, -5, 0] }}
                         transition={{ repeat: Infinity, duration: 1, delay: 0.4, repeatDelay: 0.2 }}
@@ -744,7 +825,7 @@ const GeminiChatbot = () => {
 
               {/* Categorized horizontal scroll recommendations after messages */}
               {messages.length > 0 && !isLoading && !isBotTyping && (
-                <motion.div 
+                <motion.div
                   className="mt-4 space-y-4"
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -772,7 +853,7 @@ const GeminiChatbot = () => {
                 </motion.div>
               )}
             </div>
-            
+
             {/* Input area with speech recognition */}
             <div className={`relative border-t ${theme.border}`}>
               {showSuggestions && inputValue === '' && (
@@ -795,7 +876,7 @@ const GeminiChatbot = () => {
                   ))}
                 </motion.div>
               )}
-              
+
               <div className={`flex items-center p-3 space-x-2 ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
                 {/* Voice button - separated from input group */}
                 {speechSupported && (
@@ -810,7 +891,7 @@ const GeminiChatbot = () => {
                     <FaMicrophone className={isListening ? 'animate-pulse' : ''} />
                   </motion.button>
                 )}
-                
+
                 {/* Input and send button group */}
                 <div className="flex flex-1 items-center">
                   <motion.input
@@ -825,7 +906,7 @@ const GeminiChatbot = () => {
                     disabled={isLoading}
                     whileFocus={{ borderColor: isDarkMode ? '#22d3ee' : '#818cf8' }}
                   />
-                  
+
                   <motion.button
                     type="submit"
                     onClick={handleSendMessage}
@@ -838,9 +919,9 @@ const GeminiChatbot = () => {
                   </motion.button>
                 </div>
               </div>
-              
+
               {isListening && (
-                <motion.div 
+                <motion.div
                   className="absolute -top-8 left-0 right-0 text-center"
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}

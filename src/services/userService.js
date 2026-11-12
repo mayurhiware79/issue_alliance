@@ -17,7 +17,7 @@ const USE_FIRESTORE_FALLBACK = true;
 export const updateUserProfile = async (userData, imageFile) => {
   try {
     const formData = new FormData();
-    
+
     // Add all user data to formData
     Object.keys(userData).forEach(key => {
       if (key === 'skills' && Array.isArray(userData[key])) {
@@ -27,38 +27,38 @@ export const updateUserProfile = async (userData, imageFile) => {
         formData.append(key, userData[key]);
       }
     });
-    
+
     // Add image if provided
     if (imageFile) {
       formData.append('image', imageFile);
     }
-    
+
     const response = await axios.post(`${API_URL}/api/users/profile`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    
+
     return response.data;
   } catch (error) {
     console.error('Error updating user profile:', error);
-    
+
     // Fallback to Firestore if enabled
     if (USE_FIRESTORE_FALLBACK && userData.uid) {
       try {
         console.log('Falling back to Firestore for user profile update');
         // Process any special fields (like arrays) before storing in Firestore
         const processedData = { ...userData };
-        
+
         // Set updated timestamp
         processedData.updatedAt = new Date();
-        
+
         // Handle image upload separately if needed (not implemented here)
-        
+
         // Save to users collection
         const userRef = doc(db, 'users', userData.uid);
         const userDoc = await getDoc(userRef);
-        
+
         if (userDoc.exists()) {
           await updateDoc(userRef, processedData);
         } else {
@@ -67,21 +67,21 @@ export const updateUserProfile = async (userData, imageFile) => {
             createdAt: new Date()
           });
         }
-        
+
         // Return the updated data
         const updatedDoc = await getDoc(userRef);
-        return { 
-          success: true, 
-          user: { 
-            id: updatedDoc.id, 
-            ...updatedDoc.data() 
-          } 
+        return {
+          success: true,
+          user: {
+            id: updatedDoc.id,
+            ...updatedDoc.data()
+          }
         };
       } catch (fallbackError) {
         console.error('Firestore fallback failed:', fallbackError);
       }
     }
-    
+
     throw error;
   }
 };
@@ -97,21 +97,21 @@ export const getUserProfile = async (uid) => {
     return response.data;
   } catch (error) {
     console.error('Error fetching user profile:', error);
-    
+
     // Fallback to Firestore if enabled
     if (USE_FIRESTORE_FALLBACK && uid) {
       try {
         console.log('Falling back to Firestore for user profile fetch');
         const userRef = doc(db, 'users', uid);
         const userDoc = await getDoc(userRef);
-        
+
         if (userDoc.exists()) {
-          return { 
-            success: true, 
-            user: { 
-              id: userDoc.id, 
-              ...userDoc.data() 
-            } 
+          return {
+            success: true,
+            user: {
+              id: userDoc.id,
+              ...userDoc.data()
+            }
           };
         } else {
           throw new Error('User not found in Firestore');
@@ -120,7 +120,7 @@ export const getUserProfile = async (uid) => {
         console.error('Firestore fallback failed:', fallbackError);
       }
     }
-    
+
     throw error;
   }
 };
@@ -134,13 +134,13 @@ export const uploadImage = async (imageFile) => {
   try {
     const formData = new FormData();
     formData.append('image', imageFile);
-    
+
     const response = await axios.post(`${API_URL}/api/users/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    
+
     return response.data;
   } catch (error) {
     console.error('Error uploading image:', error);
@@ -173,7 +173,7 @@ export const addContribution = async (uid, contributionData) => {
 export const updateContribution = async (uid, contributionId, updateData) => {
   try {
     const response = await axios.put(
-      `${API_URL}/api/users/contributions/${uid}/${contributionId}`, 
+      `${API_URL}/api/users/contributions/${uid}/${contributionId}`,
       updateData
     );
     return response.data;
@@ -283,16 +283,16 @@ export const getUserActivityLogs = async (uid, options = {}) => {
   try {
     const { limit, type } = options;
     let url = `${API_URL}/api/users/activity/${uid}`;
-    
+
     // Add query parameters if provided
     const params = new URLSearchParams();
     if (limit) params.append('limit', limit);
     if (type) params.append('type', type);
-    
+
     if (params.toString()) {
       url += `?${params.toString()}`;
     }
-    
+
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
@@ -311,12 +311,12 @@ export const getUserActivityLogs = async (uid, options = {}) => {
 export const syncGitHubSkills = async (uid, githubToken = null, mergeWithSkills = false) => {
   try {
     let url = `${API_URL}/api/users/sync-github-skills/${uid}`;
-    
+
     // Add query parameter for merging with skills if needed
     if (mergeWithSkills) {
       url += '?mergeWithSkills=true';
     }
-    
+
     const response = await axios.post(url, { githubToken });
     return response.data;
   } catch (error) {
@@ -337,17 +337,17 @@ export const syncGitHubSkills = async (uid, githubToken = null, mergeWithSkills 
 export const getPersonalizedIssues = async (uid, options = {}) => {
   try {
     const { preferGithub = true, page = 1, perPage = 10 } = options;
-    
+
     let url = `${API_URL}/api/users/personalized-issues/${uid}?`;
-    
+
     // Add query parameters
     const params = new URLSearchParams();
     params.append('preferGithub', preferGithub);
     params.append('page', page);
     params.append('perPage', perPage);
-    
+
     url += params.toString();
-    
+
     const response = await axios.get(url);
     return response.data;
   } catch (error) {

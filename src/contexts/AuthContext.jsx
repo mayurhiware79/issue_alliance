@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { 
-  createUserWithEmailAndPassword, 
-  signInWithEmailAndPassword, 
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
   sendPasswordResetEmail,
@@ -19,9 +19,23 @@ export function useAuth() {
   return useContext(AuthContext);
 }
 
+// Demo user object — looks like a real Firebase user to the app
+const DEMO_USER = {
+  uid: 'demo-user-001',
+  displayName: 'Demo Explorer',
+  email: 'demo@issuealliance.app',
+  photoURL: 'https://api.dicebear.com/7.x/bottts/svg?seed=IssueAlliance',
+  isDemo: true,
+  providerData: [],
+  githubUsername: 'demo-explorer',
+  skills: ['JavaScript', 'React', 'Python', 'Node.js'],
+  bio: 'Exploring IssueAlliance in demo mode',
+};
+
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isDemo, setIsDemo] = useState(false);
 
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -31,13 +45,18 @@ export function AuthProvider({ children }) {
     return signInWithEmailAndPassword(auth, email, password);
   }
 
+  // Demo login — no Firebase, no network required
+  function loginAsDemo() {
+    setCurrentUser(DEMO_USER);
+    setIsDemo(true);
+    sessionStorage.setItem('demoMode', 'true');
+  }
+
   const loginWithGoogle = async () => {
     try {
-      // Set custom parameters for Google auth
       googleProvider.setCustomParameters({
         prompt: "select_account"
       });
-      
       return await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error('Google sign-in error:', error);
@@ -47,74 +66,60 @@ export function AuthProvider({ children }) {
 
   const loginWithGithub = async () => {
     try {
-      // Check network connection first
       if (!navigator.onLine) {
         const error = new Error('No internet connection. Please check your network and try again.');
         error.customMessage = 'No internet connection. Please check your network and try again.';
         throw error;
       }
-      
-      // Set custom parameters for GitHub auth
+
       githubProvider.setCustomParameters({
-        // Force re-authentication every time
         prompt: "consent",
-        // Add scopes for better GitHub access
         scope: 'user:email read:user repo'
       });
-      
-      // Sign in with popup and wait for result
+
       let result;
       try {
         result = await signInWithPopup(auth, githubProvider);
       } catch (popupError) {
         console.error('GitHub popup error:', popupError);
-        
-        // Check for specific error types
         if (popupError.code === 'auth/popup-blocked') {
           const error = new Error('Popup was blocked by your browser. Please allow popups for this site.');
           error.customMessage = 'Popup was blocked by your browser. Please allow popups for this site.';
           throw error;
-        } else if (popupError.code === 'auth/cancelled-popup-request' || 
-                  popupError.code === 'auth/popup-closed-by-user') {
+        } else if (popupError.code === 'auth/cancelled-popup-request' ||
+          popupError.code === 'auth/popup-closed-by-user') {
           const error = new Error('Authentication was cancelled.');
           error.customMessage = 'Authentication was cancelled by user.';
           throw error;
         }
         throw popupError;
       }
-      
-      // Get GitHub user data and token
+
       const credential = GithubAuthProvider.credentialFromResult(result);
       const token = credential?.accessToken;
       const user = result.user;
-      
-      // Store user data in Firestore if needed
+
       if (user) {
         try {
           const userRef = doc(db, 'users', user.uid);
-          
-          // Retry mechanism for Firestore operations
           let retries = 3;
           let userDoc = null;
-          
+
           while (retries > 0) {
             try {
               userDoc = await getDoc(userRef);
-              break; // Success, exit loop
+              break;
             } catch (dbErr) {
               retries--;
               if (retries === 0) throw dbErr;
-              // Wait before retry
               await new Promise(resolve => setTimeout(resolve, 1000));
             }
           }
-          
-          // Get GitHub profile from provider data
+
           const githubProfile = user.providerData.find(
             provider => provider.providerId === 'github.com'
           );
-          
-          // Try to get additional GitHub data via API
+
           let githubData = null;
           try {
             if (githubProfile?.displayName) {
@@ -124,11 +129,9 @@ export function AuthProvider({ children }) {
             }
           } catch (apiErr) {
             console.warn('Could not fetch additional GitHub data:', apiErr);
-            // Continue without additional data
           }
-          
+
           if (!userDoc.exists()) {
-            // Create new user document
             await setDoc(userRef, {
               displayName: user.displayName || '',
               email: user.email,
@@ -142,7 +145,6 @@ export function AuthProvider({ children }) {
               githubData: githubData
             });
           } else {
-            // Update existing user
             await updateDoc(userRef, {
               githubConnected: true,
               githubUsername: githubProfile?.displayName || '',
@@ -154,15 +156,12 @@ export function AuthProvider({ children }) {
           }
         } catch (dbError) {
           console.error('Error updating user data:', dbError);
-          // Don't fail the auth process, just log the error
         }
       }
-      
+
       return result;
     } catch (error) {
       console.error('GitHub sign-in error:', error);
-      
-      // Handle specific error cases
       let errorMessage = 'Failed to sign in with GitHub';
       if (error.customMessage) {
         errorMessage = error.customMessage;
@@ -177,14 +176,18 @@ export function AuthProvider({ children }) {
       } else if (error.code === 'auth/network-request-failed') {
         errorMessage = 'Network error. Please check your internet connection and try again.';
       }
-      
-      // Add better error context
       error.customMessage = errorMessage;
       throw error;
     }
   };
 
   function logout() {
+    if (isDemo) {
+      setCurrentUser(null);
+      setIsDemo(false);
+      sessionStorage.removeItem('demoMode');
+      return Promise.resolve();
+    }
     return signOut(auth);
   }
 
@@ -197,6 +200,14 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
+    // Restore demo session if page was refreshed
+    if (sessionStorage.getItem('demoMode') === 'true') {
+      setCurrentUser(DEMO_USER);
+      setIsDemo(true);
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
@@ -207,6 +218,8 @@ export function AuthProvider({ children }) {
 
   const value = {
     currentUser,
+    isDemo,
+    loginAsDemo,
     signup,
     login,
     loginWithGoogle,

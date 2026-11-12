@@ -19,7 +19,7 @@ export async function generateIssueSummary(issue) {
       );
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
 
     // Safely extract repository information
     let repositoryInfo = "Unknown Repository";
@@ -35,9 +35,8 @@ export async function generateIssueSummary(issue) {
       // Extract repository name from URL if available
       const urlParts = issue.repository_url.split("/");
       if (urlParts.length >= 2) {
-        repositoryInfo = `${urlParts[urlParts.length - 2]}/${
-          urlParts[urlParts.length - 1]
-        }`;
+        repositoryInfo = `${urlParts[urlParts.length - 2]}/${urlParts[urlParts.length - 1]
+          }`;
       }
     }
 
@@ -66,9 +65,8 @@ export async function generateIssueSummary(issue) {
     return summary;
   } catch (error) {
     console.error("Error generating issue summary:", error);
-    return `Error: ${
-      error.message || "Unable to generate summary at this time."
-    }`;
+    return `Error: ${error.message || "Unable to generate summary at this time."
+      }`;
   }
 }
 
@@ -178,12 +176,12 @@ export async function generateSkillQuestions(skill, count = 5) {
   try {
     // Check if we should use the API or mock data
     const useAPI = import.meta.env.VITE_GEMINI_API_KEY && false; // Set to true when ready to use the API
-    
+
     if (useAPI) {
       // Commented out for now - Implement with actual Gemini API when ready
       /*
       const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GEMINI_API_KEY);
-      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
       
       const prompt = `
         Generate ${count} multiple-choice questions to test someone's knowledge of ${skill} programming.
@@ -231,7 +229,7 @@ export async function generateSkillQuestions(skill, count = 5) {
         throw new Error("Failed to generate valid questions");
       }
       */
-      
+
       // Fallback to mock data if API fails
       return getMockQuestions(skill, count);
     } else {
@@ -254,7 +252,7 @@ export async function generateSkillQuestions(skill, count = 5) {
 function getMockQuestions(skill, count) {
   const normalizedSkill = skill.toLowerCase();
   const questionSet = mockQuestions[normalizedSkill];
-  
+
   if (questionSet && questionSet.length >= count) {
     // If we have enough questions for this skill, return a random selection
     return getRandomSelection(questionSet, count);
@@ -324,7 +322,7 @@ function getBasicQuestions(skill, count) {
       correctAnswer: 0
     }
   ];
-  
+
   return getRandomSelection(basicQuestions, count);
 }
 
@@ -354,7 +352,7 @@ export async function generateLeaderboardDescription(username, rank = 1, points 
       );
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
 
     const prompt = `
     Generate a creative and enthusiastic description for a LinkedIn post about a user's achievement on the IssueAlliance open source platform.
@@ -385,12 +383,12 @@ export async function generateLeaderboardDescription(username, rank = 1, points 
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
-    
+
     try {
       // Try to parse the response as JSON
       let parsedResponse = JSON.parse(text);
       console.log("Successfully parsed Gemini response as JSON");
-      
+
       // Ensure IssueAlliance hashtag is included and properly formatted
       const hasIssueAlliance = parsedResponse.hashtags.toLowerCase().includes('#issuealliance');
       if (!hasIssueAlliance) {
@@ -398,34 +396,34 @@ export async function generateLeaderboardDescription(username, rank = 1, points 
       } else {
         // Replace any variation with the correct capitalization
         parsedResponse.hashtags = parsedResponse.hashtags.replace(
-          /#issuealliance/i, 
+          /#issuealliance/i,
           "#IssueAlliance"
         );
       }
-      
+
       return parsedResponse;
     } catch (parseError) {
       console.warn("Failed to parse Gemini response as JSON, using fallback extraction:", parseError);
-      
+
       // If parsing fails, try to extract the parts from the text
       const fallbackResponse = {
-        description: text.match(/description["\s:]+([^"]+)/i)?.[1] || 
-                    `Congratulations to ${username || "our contributor"} for achieving rank #${rank} on the IssueAlliance leaderboard with ${points} points! Making a significant impact in the open source community!`,
-        
-        emojis: text.includes("emoji") ? 
-                text.match(/emoji["\s:]+([^"]+)/i)?.[1] || "🏆 🚀 💻 ✨ 🌟" :
-                "🏆 🚀 💻 ✨ 🌟",
-        
-        hashtags: text.includes("hashtag") ? 
-                  text.match(/hashtag["\s:]+([^"]+)/i)?.[1] || "#IssueAlliance #OpenSource #GitHub #WebDev #Coding" :
-                  "#IssueAlliance #OpenSource #GitHub #WebDev #Coding"
+        description: text.match(/description["\s:]+([^"]+)/i)?.[1] ||
+          `Congratulations to ${username || "our contributor"} for achieving rank #${rank} on the IssueAlliance leaderboard with ${points} points! Making a significant impact in the open source community!`,
+
+        emojis: text.includes("emoji") ?
+          text.match(/emoji["\s:]+([^"]+)/i)?.[1] || "🏆 🚀 💻 ✨ 🌟" :
+          "🏆 🚀 💻 ✨ 🌟",
+
+        hashtags: text.includes("hashtag") ?
+          text.match(/hashtag["\s:]+([^"]+)/i)?.[1] || "#IssueAlliance #OpenSource #GitHub #WebDev #Coding" :
+          "#IssueAlliance #OpenSource #GitHub #WebDev #Coding"
       };
-      
+
       return fallbackResponse;
     }
   } catch (error) {
     console.error("Error generating leaderboard description:", error);
-    
+
     // Return fallback content
     return {
       description: `Congratulations to ${username || "our contributor"} for achieving rank #${rank} on the IssueAlliance leaderboard with ${points} points! Making waves in the open source community!`,

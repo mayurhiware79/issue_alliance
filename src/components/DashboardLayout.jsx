@@ -9,7 +9,7 @@ import { collection, query, where, onSnapshot, updateDoc, doc, Timestamp, orderB
 import { db } from '../firebase';
 
 function DashboardLayout() {
-  const { currentUser, logout } = useAuth();
+  const { currentUser, logout, isDemo } = useAuth();
   const { currentTheme } = useTheme();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
@@ -20,21 +20,21 @@ function DashboardLayout() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationSound] = useState(new Audio('/notification.mp3'));
   const [hasNewNotification, setHasNewNotification] = useState(false);
-  
+
   // Refs for dropdown menus (used for click outside detection)
   const profileMenuRef = useRef(null);
   const notificationsRef = useRef(null);
-  
+
   // Check if user is logged in
   if (!currentUser) {
     return <Navigate to="/" />;
   }
-  
+
   // Toggle sidebar
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-  
+
   // Handle click outside dropdowns
   useEffect(() => {
     function handleClickOutside(event) {
@@ -45,13 +45,13 @@ function DashboardLayout() {
         setShowNotifications(false);
       }
     }
-    
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
+
   // Monitor online/offline status
   useEffect(() => {
     const handleOnline = () => {
@@ -62,39 +62,39 @@ function DashboardLayout() {
         setReconnecting(false);
       }, 2000);
     };
-    
+
     const handleOffline = () => {
       setIsOffline(true);
     };
-    
+
     window.addEventListener('online', handleOnline);
     window.addEventListener('offline', handleOffline);
-    
+
     return () => {
       window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
-  
+
   // Fetch notifications for the current user
   useEffect(() => {
-    if (!currentUser) return;
-    
+    if (!currentUser || currentUser.isDemo) return;
+
     const notificationsRef = collection(db, 'notifications');
-    
+
     // Create a simpler query that doesn't require a composite index
     // First query for unread notifications without ordering
     const q = query(
-      notificationsRef, 
-      where('recipientId', '==', currentUser.uid), 
+      notificationsRef,
+      where('recipientId', '==', currentUser.uid),
       where('read', '==', false)
     );
-    
+
     let initialLoad = true;
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const notificationsList = [];
       let hasNew = false;
-      
+
       querySnapshot.docChanges().forEach((change) => {
         if (change.type === 'added' && !initialLoad) {
           hasNew = true;
@@ -106,7 +106,7 @@ function DashboardLayout() {
           }
         }
       });
-      
+
       // After checking for new notifications, populate the full list
       // Sort the results in memory instead of using orderBy in the query
       querySnapshot.forEach((doc) => {
@@ -115,28 +115,28 @@ function DashboardLayout() {
           ...doc.data()
         });
       });
-      
+
       // Sort by timestamp in memory
       notificationsList.sort((a, b) => {
         const timeA = a.timestamp?.toDate?.() || new Date(a.timestamp || 0);
         const timeB = b.timestamp?.toDate?.() || new Date(b.timestamp || 0);
         return timeB - timeA; // Descending order (newest first)
       });
-      
+
       // Limit to most recent 20 notifications
       const limitedList = notificationsList.slice(0, 20);
-      
+
       setNotifications(limitedList);
-      
+
       if (hasNew) {
         setHasNewNotification(true);
       }
-      
+
       initialLoad = false;
     }, (error) => {
       console.error("Error fetching notifications:", error);
     });
-    
+
     // Also listen for new messages with a simpler query
     const messagesRef = collection(db, 'messages');
     const messagesQuery = query(
@@ -144,30 +144,30 @@ function DashboardLayout() {
       where('recipientId', '==', currentUser.uid),
       where('read', '==', false)
     );
-    
+
     const messageUnsubscribe = onSnapshot(messagesQuery, (querySnapshot) => {
       querySnapshot.docChanges().forEach((change) => {
         if (change.type === 'added' && !initialLoad) {
           const messageData = change.doc.data();
-          
+
           // Play notification sound
           try {
             notificationSound.play();
           } catch (error) {
             console.log("Notification sound could not play:", error);
           }
-          
+
           setHasNewNotification(true);
         }
       });
     });
-    
+
     return () => {
       unsubscribe();
       messageUnsubscribe();
     };
   }, [currentUser, notificationSound]);
-  
+
   // Mark notification as read
   const markAsRead = async (notificationId) => {
     try {
@@ -175,10 +175,10 @@ function DashboardLayout() {
       await updateDoc(notificationRef, {
         read: true
       });
-      
+
       // Update the local state to reflect the change
       setNotifications(prev => prev.filter(notification => notification.id !== notificationId));
-      
+
       // If no more unread notifications, reset the indicator
       if (notifications.length <= 1) {
         setHasNewNotification(false);
@@ -187,12 +187,12 @@ function DashboardLayout() {
       console.error("Error marking notification as read:", error);
     }
   };
-  
+
   // Handle notification click
   const handleNotificationClick = (notification) => {
     // Mark as read
     markAsRead(notification.id);
-    
+
     // Navigate based on notification type
     if (notification.type === 'new_message') {
       navigate('/messages');
@@ -203,18 +203,18 @@ function DashboardLayout() {
     } else if (notification.link) {
       navigate(notification.link);
     }
-    
+
     // Close notification panel
     setShowNotifications(false);
   };
-  
+
   // Mark all notifications as read
   const markAllAsRead = async () => {
     try {
-      const promises = notifications.map(notification => 
+      const promises = notifications.map(notification =>
         updateDoc(doc(db, 'notifications', notification.id), { read: true })
       );
-      
+
       await Promise.all(promises);
       setNotifications([]);
       setHasNewNotification(false);
@@ -223,7 +223,7 @@ function DashboardLayout() {
       console.error("Error marking all notifications as read:", error);
     }
   };
-  
+
   // Handle user logout
   const handleLogout = async () => {
     try {
@@ -233,30 +233,30 @@ function DashboardLayout() {
       console.error("Failed to log out", error);
     }
   };
-  
+
   // Format notification time
   const formatNotificationTime = (timestamp) => {
     if (!timestamp) return '';
-    
+
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
     const now = new Date();
     const diffMinutes = Math.floor((now - date) / (1000 * 60));
-    
+
     if (diffMinutes < 1) return 'Just now';
     if (diffMinutes < 60) return `${diffMinutes}m ago`;
-    
+
     const diffHours = Math.floor(diffMinutes / 60);
     if (diffHours < 24) return `${diffHours}h ago`;
-    
+
     const diffDays = Math.floor(diffHours / 24);
     if (diffDays < 7) return `${diffDays}d ago`;
-    
+
     return date.toLocaleDateString();
   };
-  
+
   // Get notification icon based on type
   const getNotificationIcon = (type) => {
-    switch(type) {
+    switch (type) {
       case 'new_message':
         return <FaEnvelope className="text-blue-500" />;
       case 'mention':
@@ -267,10 +267,10 @@ function DashboardLayout() {
         return <FaBell className="text-blue-500" />;
     }
   };
-  
+
   // Count unread notifications
   const unreadCount = notifications.length;
-  
+
   // Create sample notifications if none exist (for development purposes)
   useEffect(() => {
     if (process.env.NODE_ENV === 'development' && notifications.length === 0) {
@@ -295,14 +295,14 @@ function DashboardLayout() {
       ]);
     }
   }, []);
-  
+
   return (
     <div className={`flex h-screen bg-theme transition-colors duration-200`}>
       {/* Sidebar */}
       <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-      
+
       {/* Main content */}
-      <div className={`flex-1 flex flex-col overflow-hidden ${isOffline || reconnecting ? 'mt-10' : ''}`}>
+      <div className={`flex-1 flex flex-col overflow-hidden ${isOffline || reconnecting ? 'mt-10' : ''} ${isDemo ? 'mt-9' : ''}`}>
         {/* Top navigation */}
         <header className="bg-theme-secondary shadow-sm">
           <div className="flex items-center justify-between px-6 py-3">
@@ -314,14 +314,14 @@ function DashboardLayout() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
               </svg>
             </button>
-            
+
             {/* Right Side Nav Items */}
             <div className="flex items-center space-x-4">
               <ThemeToggle />
 
               {/* Notifications Dropdown */}
               <div className="relative" ref={notificationsRef}>
-                <button 
+                <button
                   onClick={() => {
                     setShowNotifications(!showNotifications);
                     if (!showNotifications) {
@@ -334,17 +334,17 @@ function DashboardLayout() {
                   {unreadCount > 0 && (
                     <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-600 rounded-full">
                       {unreadCount > 9 ? '9+' : unreadCount}
-                </span>
-              )}
+                    </span>
+                  )}
                 </button>
-                
+
                 {/* Notifications Panel */}
                 {showNotifications && (
                   <div className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-md shadow-lg overflow-hidden z-50">
                     <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
                       <h3 className="text-sm font-medium text-theme-primary">Notifications</h3>
                       {notifications.length > 0 && (
-                        <button 
+                        <button
                           onClick={markAllAsRead}
                           className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                         >
@@ -360,7 +360,7 @@ function DashboardLayout() {
                       ) : (
                         <div>
                           {notifications.map((notification) => (
-                            <div 
+                            <div
                               key={notification.id}
                               onClick={() => handleNotificationClick(notification)}
                               className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-200 dark:border-gray-700 last:border-none"
@@ -380,8 +380,8 @@ function DashboardLayout() {
                     </div>
                     {notifications.length > 0 && (
                       <div className="p-2 text-center border-t border-gray-200 dark:border-gray-700">
-                        <Link 
-                          to="/notifications" 
+                        <Link
+                          to="/notifications"
                           className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
                           onClick={() => setShowNotifications(false)}
                         >
@@ -400,17 +400,17 @@ function DashboardLayout() {
                   className="flex items-center focus:outline-none p-1 rounded-full hover:bg-theme-hover transition-colors"
                 >
                   <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-theme-secondary-hover">
-                {currentUser.photoURL ? (
+                    {currentUser.photoURL ? (
                       <img src={currentUser.photoURL} alt="User" className="h-full w-full object-cover" />
                     ) : (
                       <div className="h-full w-full bg-blue-500 flex items-center justify-center text-white">
-                        {currentUser.displayName ? currentUser.displayName[0].toUpperCase() : 
-                         currentUser.email ? currentUser.email[0].toUpperCase() : 'U'}
+                        {currentUser.displayName ? currentUser.displayName[0].toUpperCase() :
+                          currentUser.email ? currentUser.email[0].toUpperCase() : 'U'}
                       </div>
                     )}
                   </div>
                 </button>
-                
+
                 {/* Profile Menu */}
                 {showProfileMenu && (
                   <div className="absolute right-0 mt-2 w-60 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 z-50 animate-fade-in">
@@ -422,7 +422,7 @@ function DashboardLayout() {
                         {currentUser.email}
                       </p>
                     </div>
-                    
+
                     <Link
                       to="/profile"
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center"
@@ -431,7 +431,7 @@ function DashboardLayout() {
                       <FaUser className="mr-2 text-gray-500 dark:text-gray-400" />
                       Profile
                     </Link>
-                    
+
                     <Link
                       to="/settings"
                       className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center"
@@ -440,7 +440,7 @@ function DashboardLayout() {
                       <FaCog className="mr-2 text-gray-500 dark:text-gray-400" />
                       Settings
                     </Link>
-                    
+
                     <button
                       onClick={handleLogout}
                       className="block w-full text-left px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center"
@@ -454,7 +454,7 @@ function DashboardLayout() {
             </div>
           </div>
         </header>
-        
+
         {/* Main content area */}
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-theme p-6 pb-20 md:pb-6">
           <Outlet />
