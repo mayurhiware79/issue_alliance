@@ -73,3 +73,6 @@ server/analytics-backup.json
 *.test
 *.log
 .env_test.txt
+
+# Local Netlify folder
+.netlify

@@ -1,7 +1,9 @@
 // GitHub API service for fetching issues and repositories
 
 const GITHUB_API_BASE_URL = "https://api.github.com";
-const GITHUB_API_TOKEN = import.meta.env.VITE_GITHUB_API_TOKEN;
+// Unauthenticated-by-default requests go through a Netlify Function that adds
+// the server-side GitHub token, so no token is ever shipped to the browser.
+const GITHUB_PROXY_URL = "/api/github";
 
 /**
  * Verifies a GitHub access token and returns the authenticated user data
@@ -64,12 +66,11 @@ export async function fetchRepositories(
   perPage = 30
 ) {
   try {
-    const url = `${GITHUB_API_BASE_URL}/search/repositories?q=language:${language}+stars:>=${minStars}&sort=stars&order=desc&page=${page}&per_page=${perPage}`;
+    const url = `${GITHUB_PROXY_URL}/search/repositories?q=language:${language}+stars:>=${minStars}&sort=stars&order=desc&page=${page}&per_page=${perPage}`;
 
     const response = await fetch(url, {
       headers: {
         Accept: "application/vnd.github.v3+json",
-        ...(GITHUB_API_TOKEN && { Authorization: `token ${GITHUB_API_TOKEN}` }),
       },
     });
 
@@ -102,12 +103,11 @@ export async function fetchIssues(
   perPage = 30
 ) {
   try {
-    const url = `${GITHUB_API_BASE_URL}/repos/${owner}/${repo}/issues?state=open&labels=${labels}&page=${page}&per_page=${perPage}`;
+    const url = `${GITHUB_PROXY_URL}/repos/${owner}/${repo}/issues?state=open&labels=${labels}&page=${page}&per_page=${perPage}`;
 
     const response = await fetch(url, {
       headers: {
         Accept: "application/vnd.github.v3+json",
-        ...(GITHUB_API_TOKEN && { Authorization: `token ${GITHUB_API_TOKEN}` }),
       },
     });
 
@@ -182,12 +182,11 @@ export async function searchIssues(
       ",",
       "+label:"
     )}&state=open`;
-    const url = `${GITHUB_API_BASE_URL}/search/issues?q=${searchQuery}&page=${page}&per_page=${perPage}`;
+    const url = `${GITHUB_PROXY_URL}/search/issues?q=${searchQuery}&page=${page}&per_page=${perPage}`;
 
     const response = await fetch(url, {
       headers: {
         Accept: "application/vnd.github.v3+json",
-        ...(GITHUB_API_TOKEN && { Authorization: `token ${GITHUB_API_TOKEN}` }),
       },
     });
 
@@ -210,12 +209,11 @@ export async function searchIssues(
  */
 export async function getUserProfile(username) {
   try {
-    const url = `${GITHUB_API_BASE_URL}/users/${username}`;
+    const url = `${GITHUB_PROXY_URL}/users/${username}`;
 
     const response = await fetch(url, {
       headers: {
         Accept: "application/vnd.github.v3+json",
-        ...(GITHUB_API_TOKEN && { Authorization: `token ${GITHUB_API_TOKEN}` }),
       },
     });
 
@@ -314,7 +312,7 @@ export async function fetchIssuesByKeyword(
     const searchQuery = queryParts.join("+");
 
     // Build the API URL - NO encodeURIComponent here to match the successful pattern
-    const url = `${GITHUB_API_BASE_URL}/search/issues?q=${searchQuery}&page=${page}&per_page=${perPage}&sort=${sortBy}&order=${sortOrder}`;
+    const url = `${GITHUB_PROXY_URL}/search/issues?q=${searchQuery}&page=${page}&per_page=${perPage}&sort=${sortBy}&order=${sortOrder}`;
     console.log("GitHub API URL:", url);
 
     // Add request tracking
@@ -325,9 +323,6 @@ export async function fetchIssuesByKeyword(
       const response = await fetch(url, {
         headers: {
           Accept: "application/vnd.github.v3+json",
-          ...(GITHUB_API_TOKEN && {
-            Authorization: `token ${GITHUB_API_TOKEN}`,
-          }),
         },
         signal: controller.signal,
       });
@@ -497,12 +492,11 @@ export async function fetchRandomIssue() {
     const label = labels[randomLabelIndex];
     
     // Query for issues with the selected label
-    const url = `${GITHUB_API_BASE_URL}/repos/${owner}/${repo}/issues?state=open&labels=${encodeURIComponent(label)}&per_page=100`;
+    const url = `${GITHUB_PROXY_URL}/repos/${owner}/${repo}/issues?state=open&labels=${encodeURIComponent(label)}&per_page=100`;
     
     const response = await fetch(url, {
       headers: {
         Accept: "application/vnd.github.v3+json",
-        ...(GITHUB_API_TOKEN && { Authorization: `token ${GITHUB_API_TOKEN}` }),
       },
     });
     
@@ -635,17 +629,15 @@ export async function fetchUserRepositories(username, token = null) {
       throw new Error("GitHub username is required");
     }
 
-    const url = `${GITHUB_API_BASE_URL}/users/${username}/repos?per_page=100`;
+    const url = `${token ? GITHUB_API_BASE_URL : GITHUB_PROXY_URL}/users/${username}/repos?per_page=100`;
     
     const headers = {
       Accept: "application/vnd.github.v3+json",
     };
     
-    // Use provided token or default token
+    // Use the provided token directly, otherwise go through the server-side proxy
     if (token) {
       headers.Authorization = `token ${token}`;
-    } else if (GITHUB_API_TOKEN) {
-      headers.Authorization = `token ${GITHUB_API_TOKEN}`;
     }
     
     const response = await fetch(url, { headers });
@@ -682,17 +674,15 @@ export async function fetchRepositoryLanguages(username, repoName, token = null)
       throw new Error("Username and repository name are required");
     }
     
-    const url = `${GITHUB_API_BASE_URL}/repos/${username}/${repoName}/languages`;
+    const url = `${token ? GITHUB_API_BASE_URL : GITHUB_PROXY_URL}/repos/${username}/${repoName}/languages`;
     
     const headers = {
       Accept: "application/vnd.github.v3+json",
     };
     
-    // Use provided token or default token
+    // Use the provided token directly, otherwise go through the server-side proxy
     if (token) {
       headers.Authorization = `token ${token}`;
-    } else if (GITHUB_API_TOKEN) {
-      headers.Authorization = `token ${GITHUB_API_TOKEN}`;
     }
     
     const response = await fetch(url, { headers });

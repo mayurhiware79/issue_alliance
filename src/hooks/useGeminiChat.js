@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { generateGeminiText } from "../services/geminiClient";
 
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 const MODEL_NAME = "gemini-3.5-flash";
 
 export const useGeminiChat = () => {
@@ -62,26 +61,6 @@ export const useGeminiChat = () => {
 
           setMessages((prev) => [...prev, botMessage]);
         } else {
-          if (!API_KEY) {
-            throw new Error(
-              "Gemini API key is not configured. Please check your .env file.",
-            );
-          }
-
-          const genAI = new GoogleGenerativeAI(API_KEY);
-          const model = genAI.getGenerativeModel({ model: MODEL_NAME });
-
-          // Create a chat session with properly formatted history
-          const chat = model.startChat({
-            history: chatHistory,
-            generationConfig: {
-              temperature: 0.7,
-              topK: 40,
-              topP: 0.95,
-              maxOutputTokens: 1000,
-            },
-          });
-
           // Prepare the standard prompt to include with user query
           const standardPrompt = `You are IssueAlliance AI, a helpful assistant integrated into the "Open Source Contribution Matchmaker" platform. This platform helps developers find and contribute to GitHub open-source issues matched to their skills.
 
@@ -104,9 +83,18 @@ Your areas of expertise:
 User query: ${inputText}`;
 
           // Send the message and get a response
-          const result = await chat.sendMessage(standardPrompt);
-          const response = await result.response;
-          const botResponse = response.text();
+          const botResponse = await generateGeminiText(
+            [...chatHistory, { role: "user", parts: [{ text: standardPrompt }] }],
+            {
+              model: MODEL_NAME,
+              generationConfig: {
+                temperature: 0.7,
+                topK: 40,
+                topP: 0.95,
+                maxOutputTokens: 1000,
+              },
+            },
+          );
 
           const botMessage = {
             id: Date.now() + 1,

@@ -558,7 +558,6 @@ function GitHubIssuesFetcher() {
     setLoadingSummaries((prev) => ({ ...prev, [issue.id]: true }));
     try {
       console.log("Generating summary for issue:", issue.id);
-      console.log("API Key available:", !!import.meta.env.VITE_GEMINI_API_KEY);
 
       const summary = await generateIssueSummary(issue);
       console.log("Summary generated:", summary);
